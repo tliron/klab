@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: ceph
+
+spec:
+  containers:
+  - name: main
+    image: fedora:34
+    command: [ "/bin/sh", "-c" ]
+    args: [ "tail -f /dev/null" ]
+    volumeMounts:
+    - name: data
+      mountPath: /data
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: ceph
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+
+metadata:
+  name: ceph
+
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 600Gi
+  storageClassName: ceph

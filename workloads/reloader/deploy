@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+# https://github.com/stakater/Reloader
+
+if [ "$1" == -c ]; then
+	"$HERE/delete"
+fi
+
+m 'deploying Reloader...'
+kubectl apply --filename="https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml"

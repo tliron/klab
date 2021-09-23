@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+
+PORT=$(kubectl get service rook-ceph-mgr-dashboard-external-https --output=jsonpath={.spec.ports[0].nodePort} --namespace=rook-ceph)
+PASSWORD=$(kubectl get secret rook-ceph-dashboard-password --output=jsonpath="{['data']['password']}" --namespace=rook-ceph | base64 --decode)
+
+echo "http://lab2:$PORT"
+echo "user: admin"
+echo "password: $PASSWORD"

@@ -1,0 +1,25 @@
+
+_HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$_HERE/_functions"
+
+ROOT=$(readlink --canonicalize "$_HERE/..")
+
+MINIKUBE_VERSION=1.23.2
+KUBECTL_VERSION=1.22.2
+OC_VERSION=4.7.0-0.okd-2021-09-19-013247
+KUBEVIRT_VERSION=0.45.0
+MULTUS_VERSION=3.8
+CERT_MANAGER_VERSION=1.5.3
+MARIADB_VERSION=8b941d2a929f260bceadd829289d887bce091fdb
+K9S_VERSION=0.24.15
+
+#MARIADB_VERSION=a4790c504bfcb2b7c4eb54c8851fc5897865fc84
+#KUBEVIRT_EMULATION=true
+
+WORKSPACE=${WORKSPACE:-workspace}
+
+if [ -d /Depot/Temporary ]; then
+    export TMPDIR=/Depot/Temporary
+else
+    export TMPDIR=/tmp
+fi

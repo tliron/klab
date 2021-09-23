@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+kubectl apply \
+    -f "$HERE/assets/cluster-test.yaml" || true
+
+kubectl apply \
+    -f "$HERE/assets/filesystem-test.yaml" \
+    -f "$HERE/assets/csi/cephfs/storageclass.yaml" || true
