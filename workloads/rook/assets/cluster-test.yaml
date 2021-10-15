@@ -22,6 +22,11 @@ data:
     bdev_flock_retry = 20
     bluefs_buffered_io = false
 
+    [mon]
+    auth_allow_insecure_global_id_reclaim = false
+
+# See: https://github.com/rook/rook/issues/7746#issuecomment-843887936
+
 ---
 
 apiVersion: ceph.rook.io/v1

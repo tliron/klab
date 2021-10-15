@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+
+"$HERE/ceph" mgr module enable rook
+"$HERE/ceph" orch set backend rook

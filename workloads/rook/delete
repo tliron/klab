@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+kubectl patch clusters.ceph.rook.io rook-ceph --patch='{"metadata":{"finalizers": []}}' --type=merge --namespace=rook-ceph

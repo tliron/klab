@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+
+kubectl exec deployment/rook-ceph-operator --namespace=openshift-storage -- \
+ceph -c /var/lib/rook/openshift-storage/openshift-storage.config "$@"

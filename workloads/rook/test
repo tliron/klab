@@ -8,6 +8,6 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 kubectl apply \
     -f "$HERE/assets/cluster-test.yaml" || true
 
-kubectl apply \
-    -f "$HERE/assets/filesystem-test.yaml" \
-    -f "$HERE/assets/csi/cephfs/storageclass.yaml" || true
+#kubectl apply \
+#    -f "$HERE/assets/filesystem-test.yaml" \
+#    -f "$HERE/assets/csi/cephfs/storageclass.yaml" || true

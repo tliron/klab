@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+
+oc debug node/lab2 -- rm /host/var/lib/rook -r

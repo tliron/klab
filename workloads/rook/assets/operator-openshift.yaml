@@ -10,12 +10,12 @@ kind: SecurityContextConstraints
 apiVersion: security.openshift.io/v1
 metadata:
   name: rook-ceph
-allowHostNetwork: true # PATCH
-allowHostPorts: true # PATCH
 allowPrivilegedContainer: true
+allowHostNetwork: true
 allowHostDirVolumePlugin: true
 priority:
 allowedCapabilities: []
+allowHostPorts: true
 allowHostPID: true # remove this once we drop support for Nautilus
 allowHostIPC: true
 readOnlyRootFilesystem: false
@@ -29,6 +29,9 @@ fsGroup:
   type: MustRunAs
 supplementalGroups:
   type: RunAsAny
+allowedFlexVolumes:
+  - driver: "ceph.rook.io/rook"
+  - driver: "ceph.rook.io/rook-ceph"
 volumes:
   - configMap
   - downwardAPI
@@ -52,23 +55,17 @@ kind: SecurityContextConstraints
 apiVersion: security.openshift.io/v1
 metadata:
   name: rook-ceph-csi
-# To allow running privilegedContainers
 allowPrivilegedContainer: true
-# CSI daemonset pod needs hostnetworking
 allowHostNetwork: true
-# This need to be set to true as we use HostPath
 allowHostDirVolumePlugin: true
 priority:
-# SYS_ADMIN is needed for rbd to execture rbd map command
-allowedCapabilities: ["SYS_ADMIN"]
-# Needed as we run liveness container on daemonset pods
+allowedCapabilities: ["*"]
 allowHostPorts: true
-# Needed as we are setting this in RBD plugin pod
 allowHostPID: true
-# Required for encryption
 allowHostIPC: true
-# Set to false as we write to RootFilesystem inside csi containers
 readOnlyRootFilesystem: false
+requiredDropCapabilities: []
+defaultAddCapabilities: []
 runAsUser:
   type: RunAsAny
 seLinuxContext:
@@ -77,12 +74,10 @@ fsGroup:
   type: RunAsAny
 supplementalGroups:
   type: RunAsAny
-# The type of volumes which are mounted to csi pods
-volumes:
-  - configMap
-  - projected
-  - emptyDir
-  - hostPath
+allowedFlexVolumes:
+  - driver: "ceph.rook.io/rook"
+  - driver: "ceph.rook.io/rook-ceph"
+volumes: ["*"]
 users:
   # A user needs to be added for each rook service account.
   # This assumes running in the default sample "rook-ceph" namespace.
@@ -413,6 +408,18 @@ data:
   # The timeout value (in seconds) of Ceph commands. It should be >= 1. If this variable is not set or is an invalid value, it's default to 15.
   ROOK_CEPH_COMMANDS_TIMEOUT_SECONDS: "15"
   # CSI_VOLUME_REPLICATION_IMAGE: "quay.io/csiaddons/volumereplication-operator:v0.1.0"
+
+  # (Optional) Admission controller NodeAffinity.
+  # ADMISSION_CONTROLLER_NODE_AFFINITY: "role=storage-node; storage=rook, ceph"
+  # (Optional) Admission controller tolerations list. Put here list of taints you want to tolerate in YAML format.
+  # Admission controller would be best to start on the same nodes as other ceph daemons.
+  # ADMISSION_CONTROLLER_TOLERATIONS: |
+  #   - effect: NoSchedule
+  #     key: node-role.kubernetes.io/controlplane
+  #     operator: Exists
+  #   - effect: NoExecute
+  #     key: node-role.kubernetes.io/etcd
+  #     operator: Exists
 ---
 # The deployment for the rook operator
 # OLM: BEGIN OPERATOR DEPLOYMENT
@@ -437,19 +444,13 @@ spec:
       serviceAccountName: rook-ceph-system
       containers:
         - name: rook-ceph-operator
-          image: rook/ceph:master
+          image: rook/ceph:v1.7.4
           args: ["ceph", "operator"]
           volumeMounts:
             - mountPath: /var/lib/rook
               name: rook-config
             - mountPath: /etc/ceph
               name: default-config-dir
-            - mountPath: /etc/webhook
-              name: webhook-cert
-          ports:
-            - containerPort: 9443
-              name: https-webhook
-              protocol: TCP
           env:
             - name: ROOK_CURRENT_NAMESPACE_ONLY
               value: "false"
@@ -578,7 +579,5 @@ spec:
         - name: rook-config
           emptyDir: {}
         - name: default-config-dir
-          emptyDir: {}
-        - name: webhook-cert
           emptyDir: {}
 # OLM: END OPERATOR DEPLOYMENT

@@ -1,0 +1,566 @@
+apiVersion: v1
+items:
+- apiVersion: ceph.rook.io/v1
+  kind: CephCluster
+  metadata:
+    creationTimestamp: "2021-10-04T19:58:36Z"
+    finalizers:
+    - cephcluster.ceph.rook.io
+    generation: 1
+    labels:
+      app: ocs-storagecluster
+    managedFields:
+    - apiVersion: ceph.rook.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:app: {}
+          f:ownerReferences:
+            .: {}
+            k:{"uid":"bbfbc9cb-3af3-4c5f-8b8a-38495be3dfb1"}:
+              .: {}
+              f:apiVersion: {}
+              f:blockOwnerDeletion: {}
+              f:controller: {}
+              f:kind: {}
+              f:name: {}
+              f:uid: {}
+        f:spec:
+          .: {}
+          f:cephVersion:
+            .: {}
+            f:image: {}
+          f:cleanupPolicy:
+            .: {}
+            f:sanitizeDisks: {}
+          f:continueUpgradeAfterChecksEvenIfNotHealthy: {}
+          f:crashCollector: {}
+          f:dashboard: {}
+          f:dataDirHostPath: {}
+          f:disruptionManagement:
+            .: {}
+            f:machineDisruptionBudgetNamespace: {}
+            f:managePodBudgets: {}
+          f:external: {}
+          f:healthCheck:
+            .: {}
+            f:daemonHealth:
+              .: {}
+              f:mon: {}
+              f:osd: {}
+              f:status: {}
+          f:logCollector:
+            .: {}
+            f:enabled: {}
+            f:periodicity: {}
+          f:mgr:
+            .: {}
+            f:modules: {}
+          f:mon:
+            .: {}
+            f:count: {}
+          f:monitoring:
+            .: {}
+            f:enabled: {}
+            f:rulesNamespace: {}
+          f:network:
+            .: {}
+            f:ipFamily: {}
+          f:placement:
+            .: {}
+            f:all:
+              .: {}
+              f:nodeAffinity:
+                .: {}
+                f:requiredDuringSchedulingIgnoredDuringExecution:
+                  .: {}
+                  f:nodeSelectorTerms: {}
+              f:tolerations: {}
+            f:arbiter:
+              .: {}
+              f:tolerations: {}
+            f:mon:
+              .: {}
+              f:nodeAffinity:
+                .: {}
+                f:requiredDuringSchedulingIgnoredDuringExecution:
+                  .: {}
+                  f:nodeSelectorTerms: {}
+              f:podAntiAffinity:
+                .: {}
+                f:requiredDuringSchedulingIgnoredDuringExecution: {}
+          f:priorityClassNames:
+            .: {}
+            f:mgr: {}
+            f:mon: {}
+            f:osd: {}
+          f:resources:
+            .: {}
+            f:mds:
+              .: {}
+              f:limits:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+            f:mgr:
+              .: {}
+              f:limits:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+            f:mon:
+              .: {}
+              f:limits:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+            f:rgw:
+              .: {}
+              f:limits:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+          f:security:
+            .: {}
+            f:kms: {}
+          f:storage:
+            .: {}
+            f:storageClassDeviceSets: {}
+      manager: ocs-operator
+      operation: Update
+      time: "2021-10-04T19:58:36Z"
+    - apiVersion: ceph.rook.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers:
+            .: {}
+            v:"cephcluster.ceph.rook.io": {}
+        f:status:
+          .: {}
+          f:ceph:
+            .: {}
+            f:capacity: {}
+            f:details:
+              .: {}
+              f:MDS_SLOW_METADATA_IO:
+                .: {}
+                f:message: {}
+                f:severity: {}
+              f:PG_AVAILABILITY:
+                .: {}
+                f:message: {}
+                f:severity: {}
+              f:TOO_FEW_OSDS:
+                .: {}
+                f:message: {}
+                f:severity: {}
+            f:health: {}
+            f:lastChecked: {}
+            f:versions:
+              .: {}
+              f:mds:
+                .: {}
+                f:ceph version 14.2.11-184.el8cp (44441323476fee97be0ff7a92c6065958c77f1b9) nautilus (stable): {}
+              f:mgr:
+                .: {}
+                f:ceph version 14.2.11-184.el8cp (44441323476fee97be0ff7a92c6065958c77f1b9) nautilus (stable): {}
+              f:mon:
+                .: {}
+                f:ceph version 14.2.11-184.el8cp (44441323476fee97be0ff7a92c6065958c77f1b9) nautilus (stable): {}
+              f:overall:
+                .: {}
+                f:ceph version 14.2.11-184.el8cp (44441323476fee97be0ff7a92c6065958c77f1b9) nautilus (stable): {}
+          f:conditions: {}
+          f:message: {}
+          f:phase: {}
+          f:state: {}
+          f:version:
+            .: {}
+            f:image: {}
+            f:version: {}
+      manager: rook
+      operation: Update
+      time: "2021-10-04T20:02:31Z"
+    name: ocs-storagecluster-cephcluster
+    namespace: openshift-storage
+    ownerReferences:
+    - apiVersion: ocs.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StorageCluster
+      name: ocs-storagecluster
+      uid: bbfbc9cb-3af3-4c5f-8b8a-38495be3dfb1
+    resourceVersion: "4275387"
+    uid: c409ecd5-abfb-490d-babb-ea293dd88b15
+  spec:
+    cephVersion:
+      image: registry.redhat.io/rhceph/rhceph-4-rhel8@sha256:0d7d408ccfb1e0f7dd9b846af0724005487b00171b10e4a884d360fdc1dd0ad6
+    cleanupPolicy:
+      sanitizeDisks: {}
+    continueUpgradeAfterChecksEvenIfNotHealthy: true
+    crashCollector: {}
+    dashboard: {}
+    dataDirHostPath: /var/lib/rook
+    disruptionManagement:
+      machineDisruptionBudgetNamespace: openshift-machine-api
+      managePodBudgets: true
+    external: {}
+    healthCheck:
+      daemonHealth:
+        mon: {}
+        osd: {}
+        status: {}
+    logCollector:
+      enabled: true
+      periodicity: 24h
+    mgr:
+      modules:
+      - enabled: true
+        name: pg_autoscaler
+      - enabled: true
+        name: balancer
+    mon:
+      count: 3
+    monitoring:
+      enabled: true
+      rulesNamespace: openshift-storage
+    network:
+      ipFamily: IPv4
+    placement:
+      all:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: cluster.ocs.openshift.io/openshift-storage
+                operator: Exists
+        tolerations:
+        - effect: NoSchedule
+          key: node.ocs.openshift.io/storage
+          operator: Equal
+          value: "true"
+      arbiter:
+        tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Exists
+      mon:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: cluster.ocs.openshift.io/openshift-storage
+                operator: Exists
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - rook-ceph-mon
+            topologyKey: topology.rook.io/rack
+    priorityClassNames:
+      mgr: system-node-critical
+      mon: system-node-critical
+      osd: system-node-critical
+    resources:
+      mds:
+        limits:
+          cpu: "3"
+          memory: 8Gi
+        requests:
+          cpu: "3"
+          memory: 8Gi
+      mgr:
+        limits:
+          cpu: "1"
+          memory: 3Gi
+        requests:
+          cpu: "1"
+          memory: 3Gi
+      mon:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+        requests:
+          cpu: "1"
+          memory: 2Gi
+      rgw:
+        limits:
+          cpu: "2"
+          memory: 4Gi
+        requests:
+          cpu: "2"
+          memory: 4Gi
+    security:
+      kms: {}
+    storage:
+      storageClassDeviceSets:
+      - count: 1
+        name: ocs-deviceset-local-0
+        placement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: cluster.ocs.openshift.io/openshift-storage
+                  operator: Exists
+          tolerations:
+          - effect: NoSchedule
+            key: node.ocs.openshift.io/storage
+            operator: Equal
+            value: "true"
+          topologySpreadConstraints:
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+        preparePlacement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: cluster.ocs.openshift.io/openshift-storage
+                  operator: Exists
+          tolerations:
+          - effect: NoSchedule
+            key: node.ocs.openshift.io/storage
+            operator: Equal
+            value: "true"
+          topologySpreadConstraints:
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: topology.rook.io/rack
+            whenUnsatisfiable: DoNotSchedule
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+        resources:
+          limits:
+            cpu: "2"
+            memory: 5Gi
+          requests:
+            cpu: "2"
+            memory: 5Gi
+        volumeClaimTemplates:
+        - metadata:
+            annotations:
+              crushDeviceClass: ""
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: "1"
+            storageClassName: local
+            volumeMode: Block
+          status: {}
+      - count: 1
+        name: ocs-deviceset-local-1
+        placement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: cluster.ocs.openshift.io/openshift-storage
+                  operator: Exists
+          tolerations:
+          - effect: NoSchedule
+            key: node.ocs.openshift.io/storage
+            operator: Equal
+            value: "true"
+          topologySpreadConstraints:
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+        preparePlacement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: cluster.ocs.openshift.io/openshift-storage
+                  operator: Exists
+          tolerations:
+          - effect: NoSchedule
+            key: node.ocs.openshift.io/storage
+            operator: Equal
+            value: "true"
+          topologySpreadConstraints:
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: topology.rook.io/rack
+            whenUnsatisfiable: DoNotSchedule
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+        resources:
+          limits:
+            cpu: "2"
+            memory: 5Gi
+          requests:
+            cpu: "2"
+            memory: 5Gi
+        volumeClaimTemplates:
+        - metadata:
+            annotations:
+              crushDeviceClass: ""
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: "1"
+            storageClassName: local
+            volumeMode: Block
+          status: {}
+      - count: 1
+        name: ocs-deviceset-local-2
+        placement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: cluster.ocs.openshift.io/openshift-storage
+                  operator: Exists
+          tolerations:
+          - effect: NoSchedule
+            key: node.ocs.openshift.io/storage
+            operator: Equal
+            value: "true"
+          topologySpreadConstraints:
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+        preparePlacement:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: cluster.ocs.openshift.io/openshift-storage
+                  operator: Exists
+          tolerations:
+          - effect: NoSchedule
+            key: node.ocs.openshift.io/storage
+            operator: Equal
+            value: "true"
+          topologySpreadConstraints:
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: topology.rook.io/rack
+            whenUnsatisfiable: DoNotSchedule
+          - labelSelector:
+              matchExpressions:
+              - key: ceph.rook.io/pvc
+                operator: Exists
+            maxSkew: 1
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: ScheduleAnyway
+        resources:
+          limits:
+            cpu: "2"
+            memory: 5Gi
+          requests:
+            cpu: "2"
+            memory: 5Gi
+        volumeClaimTemplates:
+        - metadata:
+            annotations:
+              crushDeviceClass: ""
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: "1"
+            storageClassName: local
+            volumeMode: Block
+          status: {}
+  status:
+    ceph:
+      capacity: {}
+      details:
+        MDS_SLOW_METADATA_IO:
+          message: 2 MDSs report slow metadata IOs
+          severity: HEALTH_WARN
+        PG_AVAILABILITY:
+          message: 'Reduced data availability: 176 pgs inactive'
+          severity: HEALTH_WARN
+        TOO_FEW_OSDS:
+          message: OSD count 0 < osd_pool_default_size 3
+          severity: HEALTH_WARN
+      health: HEALTH_WARN
+      lastChecked: "2021-10-06T16:39:34Z"
+      versions:
+        mds:
+          ceph version 14.2.11-184.el8cp (44441323476fee97be0ff7a92c6065958c77f1b9) nautilus (stable): 2
+        mgr:
+          ceph version 14.2.11-184.el8cp (44441323476fee97be0ff7a92c6065958c77f1b9) nautilus (stable): 1
+        mon:
+          ceph version 14.2.11-184.el8cp (44441323476fee97be0ff7a92c6065958c77f1b9) nautilus (stable): 3
+        overall:
+          ceph version 14.2.11-184.el8cp (44441323476fee97be0ff7a92c6065958c77f1b9) nautilus (stable): 6
+    conditions:
+    - lastHeartbeatTime: "2021-10-06T16:39:34Z"
+      lastTransitionTime: "2021-10-04T20:00:28Z"
+      message: Cluster created successfully
+      reason: ClusterCreated
+      status: "True"
+      type: Ready
+    message: Cluster created successfully
+    phase: Ready
+    state: Created
+    version:
+      image: registry.redhat.io/rhceph/rhceph-4-rhel8@sha256:0d7d408ccfb1e0f7dd9b846af0724005487b00171b10e4a884d360fdc1dd0ad6
+      version: 14.2.11-184
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

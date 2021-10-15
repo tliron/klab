@@ -16,10 +16,10 @@ spec:
       size: 1
       requireSafeReplicaSize: false
   dataPools:
-    - failureDomain: osd
-      replicated:
-        size: 1
-        requireSafeReplicaSize: false
+  - failureDomain: osd
+    replicated:
+      size: 1
+      requireSafeReplicaSize: false
   preserveFilesystemOnDelete: false
   metadataServer:
     activeCount: 1

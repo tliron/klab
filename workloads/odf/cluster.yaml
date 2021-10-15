@@ -1,0 +1,66 @@
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+
+metadata:
+  name: main
+  namespace: openshift-storage
+
+spec:
+  storage:
+    useAllNodes: true
+    useAllDevices: true
+  cephVersion:
+    # Ceph 16 (pacific)
+    image: quay.io/ceph/ceph:v16.2.6 # https://quay.io/repository/ceph/ceph?tab=tags
+    #image: registry.redhat.io/rhceph/rhceph-5-rhel8:5-14 # https://catalog.redhat.com/software/containers/rhceph/rhceph-5-rhel8/60ec72a74a6a2c7844abe5fb?tag=all
+
+    # Ceph 14 (nautilus)
+    #image: quay.io/ceph/ceph:v14.2.22
+    #image: registry.redhat.io/rhceph/rhceph-4-rhel8:4-59 # https://catalog.redhat.com/software/containers/detail/5e39df7cd70cc54b02baf33f?tag=all
+
+    # Ceph 12 (luminous)
+    #image: registry.redhat.io/rhceph/rhceph-3-rhel7:3-51 # https://catalog.redhat.com/software/containers/rhceph/rhceph-3-rhel7/5a15ec17ecb5244d5b553577?tag=all
+  mon:
+    allowMultiplePerNode: true
+  mgr:
+    allowMultiplePerNode: true
+    modules:
+    - name: balancer
+      enabled: true
+    - name: pg_autoscaler
+      enabled: true
+    - name: rook
+      enabled: true
+  dashboard:
+    enabled: true
+    ssl: true
+  monitoring:
+    enabled: true
+    rulesNamespace: openshift-storage
+  logCollector:
+    enabled: true
+    periodicity: 24h
+  disruptionManagement:
+    managePodBudgets: true
+    machineDisruptionBudgetNamespace: openshift-machine-api
+  priorityClassNames:
+    mgr: system-node-critical
+    mon: system-node-critical
+    osd: system-node-critical
+  dataDirHostPath: /var/lib/rook # under /host in CoreOS
+  continueUpgradeAfterChecksEvenIfNotHealthy: true
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+
+metadata:
+  name: rook-config-override # this name is required!
+  namespace: openshift-storage
+
+data:
+  config: |
+    [global]
+    osd_pool_default_size = 1
+    mon_warn_on_pool_no_redundancy = false
