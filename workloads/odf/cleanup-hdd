@@ -1,9 +1,0 @@
-#!/bin/bash
-set -e
-
-HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
-
-# https://github.com/rook/rook/blob/master/Documentation/ceph-teardown.md
-
-oc debug node/lab2 -- dd if=/dev/zero of=/dev/sdb bs=1M count=100 oflag=direct,dsync

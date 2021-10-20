@@ -1,9 +1,0 @@
-#!/bin/bash
-set -e
-
-HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
-
-# See: https://lists.ceph.io/hyperkitty/list/ceph-users@ceph.io/thread/KQ5A5OWRIUEOJBC7VILBGDIKPQGJQIWN/
-
-"$HERE/ceph" fs compat main add_incompat 7 "mds uses inline data"
