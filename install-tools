@@ -21,7 +21,7 @@ install_tool kubectl "$KUBECTL_VERSION" \
 "https://storage.googleapis.com/kubernetes-release/release/v$KUBECTL_VERSION/bin/linux/amd64/kubectl"
 
 install_tool oc "$OC_VERSION" \
-"https://github.com/openshift/okd/releases/download/$OC_VERSION/openshift-client-linux-$OC_VERSION.tar.gz"
+"https://github.com/openshift/okd/releases/download/$OC_VERSION/openshift-client-linux-$OC_VERSION.tar.gz" 0
 
 install_tool virtctl "$KUBEVIRT_VERSION" \
 "https://github.com/kubevirt/kubevirt/releases/download/v$KUBEVIRT_VERSION/virtctl-v${KUBEVIRT_VERSION}-linux-amd64"
