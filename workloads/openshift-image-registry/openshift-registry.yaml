@@ -1,0 +1,16 @@
+# See: https://docs.openshift.com/container-platform/4.9/registry/configuring_registry_storage/configuring-registry-storage-baremetal.html#configuring-registry-storage-baremetal
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+
+metadata:
+  name: registry
+  namespace: openshift-image-registry
+
+spec:
+  storageClassName: ceph
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi

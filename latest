@@ -12,7 +12,7 @@ KUBECTL_VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-releas
 KUBECTL_VERSION=${KUBECTL_VERSION:1}
 m "KUBECTL_VERSION=$KUBECTL_VERSION"
 
-OC_VERSION=$(github_version openshift/okd)
+OC_VERSION=$(github_version okd-project/okd)
 m "OC_VERSION=$OC_VERSION"
 
 KUBEVIRT_VERSION=$(github_version kubevirt/kubevirt)
@@ -23,7 +23,7 @@ MULTUS_VERSION=$(github_version k8snetworkplumbingwg/multus-cni)
 MULTUS_VERSION=${MULTUS_VERSION:1}
 m "MULTUS_VERSION=$MULTUS_VERSION"
 
-CERT_MANAGER_VERSION=$(github_version jetstack/cert-manager)
+CERT_MANAGER_VERSION=$(github_version cert-manager/cert-manager)
 CERT_MANAGER_VERSION=${CERT_MANAGER_VERSION:1}
 m "CERT_MANAGER_VERSION=$CERT_MANAGER_VERSION"
 

@@ -22,7 +22,8 @@ function copy_function () {
 
 function github_version () {
 	local REPO=$1
-	curl --silent "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'	
+	curl --silent "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'
+	#git ls-remote -q -t --refs "https://github.com/$REPO.git" | awk '/v/{sub("refs/tags/", ""); print $2 }' | awk '!/^$/' | sort -rV | head -n 1
 }
 
 # kubectl

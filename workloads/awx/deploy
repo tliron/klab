@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+# See: https://github.com/ansible/awx-operator#basic-install
+
+cd "$HERE"
+
+if [ ! -d awx-operator ]; then
+	git clone https://github.com/ansible/awx-operator.git
+fi
+
+cd awx-operator
+export NAMESPACE=awx
+make deploy
