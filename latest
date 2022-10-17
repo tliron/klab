@@ -39,8 +39,10 @@ HELM_VERSION=$(github_version helm/helm)
 HELM_VERSION=${HELM_VERSION:1}
 m "HELM_VERSION=$HELM_VERSION"
 
-DASEL_VERSION=$(github_version TomWright/dasel)
-m "DASEL_VERSION=$DASEL_VERSION"
+#DASEL_VERSION=$(github_version TomWright/dasel)
+#DASEL_VERSION=${DASEL_VERSION:1}
+#m "DASEL_VERSION=$DASEL_VERSION"
 
 YQ_VERSION=$(github_version mikefarah/yq)
+YQ_VERSION=${YQ_VERSION:1}
 m "YQ_VERSION=$YQ_VERSION"

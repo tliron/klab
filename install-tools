@@ -8,6 +8,7 @@ fi
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/library/_env"
+. "$HERE/library/_trap"
 
 FORCE=false
 if [ "$1" == -f ]; then
@@ -31,3 +32,10 @@ install_tool kubectl-cert_manager "$CERT_MANAGER_VERSION" \
 
 install_tool k9s "$K9S_VERSION" \
 "https://github.com/derailed/k9s/releases/download/v$K9S_VERSION/k9s_Linux_x86_64.tar.gz" 0
+
+install_tool helm "$HELM_VERSION" \
+"https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz" 1 \
+"linux-amd64/"
+
+install_tool yq "$YQ_VERSION" \
+"https://github.com/mikefarah/yq/releases/download/v$YQ_VERSION/yq_linux_amd64"
