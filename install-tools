@@ -18,6 +18,9 @@ fi
 install_tool minikube "$MINIKUBE_VERSION" \
 "https://storage.googleapis.com/minikube/releases/v$MINIKUBE_VERSION/minikube-linux-amd64"
 
+install_tool kind "$KIND_VERSION" \
+"https://github.com/kubernetes-sigs/kind/releases/download/v$KIND_VERSION/kind-linux-amd64"
+
 install_tool kubectl "$KUBECTL_VERSION" \
 "https://storage.googleapis.com/kubernetes-release/release/v$KUBECTL_VERSION/bin/linux/amd64/kubectl"
 

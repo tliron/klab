@@ -8,6 +8,10 @@ MINIKUBE_VERSION=$(github_version kubernetes/minikube)
 MINIKUBE_VERSION=${MINIKUBE_VERSION:1}
 m "MINIKUBE_VERSION=$MINIKUBE_VERSION"
 
+KIND_VERSION=$(github_version kubernetes-sigs/kind)
+KIND_VERSION=${KIND_VERSION:1}
+m "KIND_VERSION=$KIND_VERSION"
+
 KUBECTL_VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
 KUBECTL_VERSION=${KUBECTL_VERSION:1}
 m "KUBECTL_VERSION=$KUBECTL_VERSION"

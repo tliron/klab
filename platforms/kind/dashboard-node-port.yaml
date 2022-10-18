@@ -1,0 +1,7 @@
+spec:
+  type: NodePort
+  ports:
+  - nodePort: 32000 # see cluster.yaml
+    port: 443
+    protocol: TCP
+    targetPort: 8443
