@@ -5,4 +5,7 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../library/_env"
 . "$ROOT/library/_trap"
 
-kubectl delete --ignore-not-found=true --filename="https://raw.githubusercontent.com/intel/multus-cni/$MULTUS_VERSION/images/multus-daemonset.yml"
+kubectl delete --ignore-not-found=true --filename="https://raw.githubusercontent.com/intel/multus-cni/v$MULTUS_VERSION/deployments/multus-daemonset-thick-plugin.yml"
+
+m 'restarting CRI-O...'
+minikube ssh -p central -- sudo systemctl restart crio
