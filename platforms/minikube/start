@@ -2,7 +2,7 @@
 set -e
 
 # Fedora requirements:
-#   dnf install @virtualization
+#   sudo dnf install @virtualization
 #   sudo usermod -a -G libvirt $(whoami)
 #   newgrp libvirt
 
