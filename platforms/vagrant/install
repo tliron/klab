@@ -1,0 +1,9 @@
+
+
+# https://developer.fedoraproject.org/tools/vagrant/vagrant-nfs.html
+
+sudo firewall-cmd --permanent --zone=libvirt --add-service=nfs3 \
+    && sudo firewall-cmd --permanent --zone=libvirt --add-service=nfs \
+    && sudo firewall-cmd --permanent --zone=libvirt --add-service=rpc-bind \
+    && sudo firewall-cmd --permanent --zone=libvirt --add-service=mountd \
+    && sudo firewall-cmd --reload

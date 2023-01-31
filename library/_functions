@@ -26,6 +26,12 @@ function github_version () {
 	#git ls-remote -q -t --refs "https://github.com/$REPO.git" | awk '/v/{sub("refs/tags/", ""); print $2 }' | awk '!/^$/' | sort -rV | head -n 1
 }
 
+function github_version_of () {
+	local REPO=$1
+	local PREFIX=$2
+	curl --silent "https://api.github.com/repos/$REPO/releases" | jq '.[].tag_name' | grep "$PREFIX" | head -1 | sed -E 's/.*"([^"]+)".*/\1/'
+}
+
 # kubectl
 
 function kubectl_first_pod () {

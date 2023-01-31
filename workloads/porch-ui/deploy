@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+# https://kpt.dev/guides/porch-ui-installation
+# https://console.cloud.google.com/gcr/images/kpt-dev/global/kpt-backstage-plugins/backstage-plugin-cad?project=kpt-dev
+# https://github.com/GoogleContainerTools/kpt-backstage-plugins

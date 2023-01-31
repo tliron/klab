@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+cd "$HERE"
+
+if [ "$1" == -c ]; then
+	rm --recursive --force nephio-webui
+fi
+
+if [ ! -d nephio-webui ]; then
+	kpt pkg get --for-deployment https://github.com/nephio-project/nephio-packages.git/nephio-webui
+fi
+
+kubectl apply -f nephio-webui
+kubectl port-forward --namespace=nephio-webui service/nephio-webui 7007:7007
