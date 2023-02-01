@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../../library/_env"
+
+USERNAME=$1
+ORG=$2
+
+m "creating Gitea org \"$ORG\"..."
+"$HERE/api" "$USERNAME" POST orgs "{\"username\":\"$ORG\"}"

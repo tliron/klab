@@ -1,0 +1,137 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: free5gc-external-blueprints
+  namespace: nephio
+  labels:
+    kpt.dev/repository-content: external-blueprints
+    kpt.dev/repository-access: read-only
+
+spec:
+  description: free5GC External Blueprints
+  content: Package
+  deployment: false
+  type: git
+  git:
+    repo: https://github.com/nephio-project/free5gc-packages.git
+    directory: /
+    branch: main
+
+---
+
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: nephio-external-blueprints
+  namespace: nephio
+  labels:
+    kpt.dev/repository-content: external-blueprints
+    kpt.dev/repository-access: read-only
+
+spec:
+  description: Nephio External Blueprints
+  content: Package
+  deployment: false
+  type: git
+  git:
+    repo: https://github.com/nephio-project/nephio-packages.git
+    directory: /
+    branch: main
+
+---
+
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: organizational-blueprints
+  namespace: nephio
+  labels:
+    kpt.dev/repository-content: organizational-blueprints
+
+spec:
+  description: Nephio Organizational Blueprints
+  content: Package
+  deployment: false
+  type: git
+  git:
+    repo: http://gitea-http.gitea:3000/nephio/organizational-blueprints.git
+    directory: /
+    branch: main
+    createBranch: true
+    secretRef:
+      name: gitea
+
+---
+
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: team-blueprints
+  namespace: nephio
+  labels:
+    kpt.dev/repository-content: team-blueprints
+
+spec:
+  description: Nephio Team Blueprints
+  content: Package
+  deployment: false
+  type: git
+  git:
+    repo: http://gitea-http.gitea:3000/nephio/team-blueprints.git
+    directory: /
+    branch: main
+    createBranch: true
+    secretRef:
+      name: gitea
+
+---
+
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: edge1-deployments
+  namespace: nephio
+  labels:
+    kpt.dev/repository-content: deployments
+
+spec:
+  description: Edge1 Deployments
+  content: Package
+  deployment: true
+  type: git
+  git:
+    repo: http://gitea-http.gitea:3000/nephio/edge1-deployments.git
+    directory: /
+    branch: main
+    createBranch: true
+    secretRef:
+      name: gitea
+
+---
+
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: edge2-deployments
+  namespace: nephio
+  labels:
+    kpt.dev/repository-content: deployments
+
+spec:
+  description: Edge2 Deployments
+  content: Package
+  deployment: true
+  type: git
+  git:
+    repo: http://gitea-http.gitea:3000/nephio/edge2-deployments.git
+    directory: /
+    branch: main
+    createBranch: true
+    secretRef:
+      name: gitea

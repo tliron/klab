@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../../library/_env"
+
+USERNAME=$1
+
+if [ ! -f "$HERE/tokens/$USERNAME" ]; then
+    mkdir --parents "$HERE/tokens/"
+    "$HERE/gitea" admin user generate-access-token --username "$USERNAME" --raw | tail -1 > "$HERE/tokens/$USERNAME"
+fi
+
+cat "$HERE/tokens/$USERNAME"

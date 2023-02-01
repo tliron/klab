@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../../library/_env"
+
+USERNAME=$1
+EMAIL=$2
+PASSWORD=$3
+
+m "creating Gitea user \"$USERNAME\"..."
+"$HERE/gitea" admin user create --username "$USERNAME" --email "$EMAIL" --password "$PASSWORD" --must-change-password=false "${@:4}"

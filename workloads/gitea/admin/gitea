@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../../library/_env"
+
+# Note: we cannot run "gitea" as root
+kubectl exec gitea-0 --namespace=gitea --quiet -- \
+su git -c "gitea --quiet $*"

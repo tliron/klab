@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../../library/_env"
+
+USERNAME=$1
+ORG=$2
+REPO=$3
+
+m "creating Gitea repository \"$ORG/$REPO\"..."
+"$HERE/api" "$USERNAME" POST "org/$ORG/repos" "{\"name\":\"$REPO\", \"auto_init\": true, \"default_branch\": \"main\"}"

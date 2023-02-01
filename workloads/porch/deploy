@@ -20,4 +20,4 @@ if [ ! -d "$HERE/blueprint" ]; then
 fi
 
 kubectl apply -f "$HERE/blueprint/"
-kubectl wait deployment --for=condition=Available porch-server --namespace porch-system
+kubectl wait deployment porch-server --for=condition=Available --namespace=porch-system
