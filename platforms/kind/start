@@ -2,5 +2,38 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
 
-kind create cluster --config="$HERE/cluster.yaml"
+# See: https://kind.sigs.k8s.io/docs/user/known-issues/#pod-errors-due-to-too-many-open-files
+
+for CLUSTER in "$@"; do
+
+. "$HERE/clusters/$CLUSTER/env"
+
+API_ADDRESS=${API_ADDRESS:-127.0.0.1}
+DASHBOARD_CONTAINER_PORT=${DASHBOARD_CONTAINER_PORT:-30000}
+
+m "creating cluster \"$CLUSTER\"..."
+
+mkdir --parents "$HERE/work/"
+
+# Make sure to map the dashboard's node port to a host port in cluster.yaml
+CLUSTER_NAME="$CLUSTER_NAME" CLUSTER_DISPLAY_NAME="$CLUSTER_DISPLAY_NAME" API_ADDRESS="$API_ADDRESS" API_PORT="$API_PORT" DASHBOARD_PORT="$DASHBOARD_PORT" DASHBOARD_CONTAINER_PORT="$DASHBOARD_CONTAINER_PORT" \
+envsubst < "$HERE/clusters/$CLUSTER/cluster.yaml" > "$HERE/work/$CLUSTER-cluster.yaml"
+
+kind create cluster --config="$HERE/work/$CLUSTER-cluster.yaml" || true
+
+if [ -n "$DASHBOARD_PORT" ]; then
+
+m 'installing dashboard...'
+
+"$HERE/use" "$CLUSTER"
+"$ROOT/workloads/dashboard/deploy" "$CLUSTER_DISPLAY_NAME"
+
+m "dashboard URL: http://localhost:$DASHBOARD_PORT"
+m '(wait 1 minute for dashboard to come up)'
+xdg-open "http://localhost:$DASHBOARD_PORT"
+
+fi
+done

@@ -20,6 +20,33 @@ function copy_function () {
 	eval "$NEWNAME_FUNC"
 }
 
+# text
+
+function replace_text () {
+    local FILE=$1
+    local START=$2
+    local END=$3
+    local NEW=$4
+	local T=$(mktemp)
+	head -n $((START-1)) "$FILE" > "$T"
+	echo "$NEW" >> "$T"
+	tail -n +$((END+1)) "$FILE" >> "$T"
+	mv "$T" "$FILE"
+}
+
+function insert_text () {
+    local FILE=$1
+    local START=$2
+    local NEW=$3
+	local T=$(mktemp)
+	head -n $((START-1)) "$FILE" > "$T"
+	echo "$NEW" >> "$T"
+	tail -n +$START "$FILE" >> "$T"
+	mv "$T" "$FILE"
+}
+
+# github
+
 function github_version () {
 	local REPO=$1
 	curl --silent "https://api.github.com/repos/$REPO/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'

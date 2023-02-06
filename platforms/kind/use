@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+
+CLUSTER=$1
+
+kubectl config use-context "kind-$CLUSTER"

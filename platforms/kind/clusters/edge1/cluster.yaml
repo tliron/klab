@@ -1,0 +1,14 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+
+name: $CLUSTER_NAME
+networking:
+  apiServerAddress: $API_ADDRESS
+  apiServerPort: $API_PORT
+  podSubnet: 10.98.0.0/16
+  serviceSubnet: 10.198.0.0/16
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: $DASHBOARD_CONTAINER_PORT
+    hostPort: $DASHBOARD_PORT

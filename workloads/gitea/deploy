@@ -9,4 +9,5 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 
 kubectl create namespace gitea || true
 helm repo add gitea-charts https://dl.gitea.io/charts/
-helm install gitea gitea-charts/gitea --namespace=gitea --set='ingress.hosts[0].host=gitea-http.gitea:3000' || true
+helm install gitea gitea-charts/gitea --namespace=gitea \
+	--set='ingress.hosts[0].host=gitea-http.gitea:3000' || true

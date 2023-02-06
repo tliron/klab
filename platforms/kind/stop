@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+for CLUSTER in "$@"; do
+
+m "deleting cluster \"$CLUSTER\"..."
+kind delete cluster --name="$CLUSTER"
+
+done
