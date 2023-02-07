@@ -5,62 +5,62 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../library/_env"
 . "$ROOT/library/_trap"
 
+# https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+
 CLUSTER=$1
 
-DASHBOARD_CONTAINER_PORT=${DASHBOARD_CONTAINER_PORT:-30000}
+SECURE=${SECURE:-true}
+NODE_PORT=${NODE_PORT:-30000}
 
-# https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
-# https://computingforgeeks.com/how-to-install-kubernetes-dashboard-with-nodeport/
+if [ "$SECURE" == true ]; then
+	PORT=443
+	TARGET_PORT=8443
+else
+	PORT=80
+	TARGET_PORT=9090
+fi
 
 if [ ! -f "$HERE/work/dashboard.yaml" ]; then
 	mkdir --parents "$HERE/work/"
-	curl https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml --output "$HERE/work/dashboard.yaml"
+	curl "https://raw.githubusercontent.com/kubernetes/dashboard/v$KUBERNETES_DASHBOARD_VERSION/aio/deploy/recommended.yaml" --output "$HERE/work/dashboard.yaml"
 fi
 
 cp "$HERE/work/dashboard.yaml" "$HERE/work/$CLUSTER.yaml"
 
 # Use HTTP node port
+# See: https://computingforgeeks.com/how-to-install-kubernetes-dashboard-with-nodeport/
 replace_text "$HERE/work/$CLUSTER.yaml" 40 42 \
 "  type: NodePort
   ports:
-    - targetPort: 9090
-      port: 80
-      nodePort: $DASHBOARD_CONTAINER_PORT"
+    - targetPort: $TARGET_PORT
+      port: $PORT
+      nodePort: $NODE_PORT"
 
 # Configure cluster name (seen in web browser title)
+# Note: we need the *entire* configuration here, see https://github.com/kubernetes/dashboard/issues/7612
 insert_text "$HERE/work/$CLUSTER.yaml" 92 \
 "data:
-  _global: '{\"clusterName\": \"$CLUSTER\"}'"
+  _global: '{\"clusterName\":\"$CLUSTER\",\"itemsPerPage\":10,\"labelsLimit\":3,\"logsAutoRefreshTimeInterval\":5,\"resourceAutoRefreshTimeInterval\":5,\"disableAccessDeniedNotifications\":false,\"defaultNamespace\":\"default\",\"namespaceFallbackList\":[\"default\"]}'"
 
-# Enable HTTP and skip authentication
-# See: https://github.com/kubernetes/dashboard/blob/master/docs/common/dashboard-arguments.md
-replace_text "$HERE/work/$CLUSTER.yaml" 203 203 \
+if [ "$SECURE" == true ]; then
+	# See: https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+	cat "$HERE/assets/user-admin.yaml" >> "$HERE/work/$CLUSTER.yaml"
+else
+	# Enable HTTP and skip authentication
+	# See: https://github.com/kubernetes/dashboard/blob/master/docs/common/dashboard-arguments.md
+	replace_text "$HERE/work/$CLUSTER.yaml" 203 203 \
 "            - --insecure-bind-address=0.0.0.0
             - --enable-skip-login
             - --disable-settings-authorizer"
 
-#replace_text "$HERE/work/$CLUSTER-dashboard.yaml" 223 223 \
-#"            timeoutSeconds: 60"
-
-# Add "cluster-admin" permissions
-# See: https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#admin-privileges
-echo "
----
-
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-
-metadata:
-  name: kubernetes-dashboard-admin
-  namespace: kubernetes-dashboard
-
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: kubernetes-dashboard
-  namespace: kubernetes-dashboard" >> "$HERE/work/$CLUSTER.yaml"
+	# Add "cluster-admin" permissions to "kubernetes-dashboard"" serviceaccount
+	# See: https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#admin-privileges
+	cat "$HERE/assets/user-kubernetes-dashboard.yaml" >> "$HERE/work/$CLUSTER.yaml"
+fi
 
 kubectl apply -f "$HERE/work/$CLUSTER.yaml"
+
+if [ "$SECURE" == true ]; then
+	m "admin token (from \"$HERE/admin-token\"):"
+	"$HERE/admin-token"
+fi

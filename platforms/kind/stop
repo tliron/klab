@@ -8,6 +8,8 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 for CLUSTER in "$@"; do
 
 m "deleting cluster \"$CLUSTER\"..."
+
+KIND_EXPERIMENTAL_PROVIDER="$KIND_EXPERIMENTAL_PROVIDER" \
 kind delete cluster --name="$CLUSTER"
 
 done

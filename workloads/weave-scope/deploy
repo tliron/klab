@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+NODE_PORT=${NODE_PORT:-30000}
+
+if [ ! -f "$HERE/work/weave-scope.yaml" ]; then
+	mkdir --parents "$HERE/work/"
+	curl "https://github.com/weaveworks/scope/releases/download/v$WEAVE_SCOPE_VERSION/k8s-scope.yaml" --location --output "$HERE/work/weave-scope.yaml"
+fi
+
+cp "$HERE/work/weave-scope.yaml" "$HERE/work/weave-scope-node-port.yaml"
+
+replace_text "$HERE/work/weave-scope-node-port.yaml" 305 308 \
+"      type: NodePort
+      ports:
+        - name: app
+          port: 80
+          protocol: TCP
+          targetPort: 4040
+          nodePort: $NODE_PORT"
+
+kubectl apply -f "$HERE/work/weave-scope-node-port.yaml"

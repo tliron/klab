@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: Namespace
+
+metadata:
+  name: headlamp
+
+---
+
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: headlamp
+  namespace: headlamp
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: headlamp
+  template:
+    metadata:
+      labels:
+        k8s-app: headlamp
+    spec:
+      containers:
+      - name: headlamp
+        image: ghcr.io/kinvolk/headlamp:latest
+        args:
+          - "-in-cluster"
+          - "-plugins-dir=/headlamp/plugins"
+        ports:
+        - containerPort: 4466
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: 4466
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+      nodeSelector:
+        'kubernetes.io/os': linux
+
+---
+
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: headlamp
+  namespace: headlamp
+
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 4466
+    nodePort: $NODE_PORT
+  selector:
+    k8s-app: headlamp
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+
+metadata:
+  name: admin
+  namespace: headlamp
+
+secrets:
+- name: admin
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+
+metadata:
+  name: admin
+  namespace: headlamp
+
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin
+  namespace: headlamp
+
+---
+
+apiVersion: v1
+kind: Secret
+
+metadata:
+  name: admin
+  namespace: headlamp
+  annotations:
+    kubernetes.io/service-account.name: admin # required
+
+type: kubernetes.io/service-account-token
