@@ -8,7 +8,29 @@ USERNAME=$1
 
 if [ ! -f "$HERE/tokens/$USERNAME" ]; then
     mkdir --parents "$HERE/tokens/"
-    "$HERE/gitea" admin user generate-access-token --username "$USERNAME" --raw | tail -1 > "$HERE/tokens/$USERNAME"
+
+	# Unfortunately this inconsistently spits out logs stdout, making it challenging to parse
+    # "$HERE/gitea" admin user generate-access-token --username "$USERNAME" --raw | tail -1 > "$HERE/tokens/$USERNAME"
+
+	# See: https://docs.gitea.io/en-us/api-usage/#generating-and-listing-api-tokens
+
+	. "$HERE/../_env"
+
+	kubectl exec gitea-0 --namespace=gitea --quiet -- \
+    curl --silent \
+        "http://localhost:3000/api/v1/users/$USERNAME/tokens/klab" \
+		--user "$ADMINISTRATOR_USERNAME:$ADMINISTRATOR_PASSWORD"
+		--request DELETE \
+        --header 'Accept: application/json'
+
+	kubectl exec gitea-0 --namespace=gitea --quiet -- \
+    curl --silent \
+        "http://localhost:3000/api/v1/users/$USERNAME/tokens" \
+		--user "$ADMINISTRATOR_USERNAME:$ADMINISTRATOR_PASSWORD" \
+		--request POST \
+        --header 'Accept: application/json' \
+        --header 'Content-Type: application/json' \
+		--data '{"name": "klab"}' | jq --raw-output .sha1 > "$HERE/tokens/$USERNAME"
 fi
 
 cat "$HERE/tokens/$USERNAME"

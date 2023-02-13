@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+NODE_PORT=${NODE_PORT:-30000}
+
+KUBERNETES_WEB_VIEW_VERSION="$KUBERNETES_WEB_VIEW_VERSION" NODE_PORT="$NODE_PORT" envsubst < "$HERE/assets/kubernetes-web-view.yaml" | kubectl apply -f -

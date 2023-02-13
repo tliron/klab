@@ -8,5 +8,4 @@ USERNAME=$1
 ORG=$2
 REPO=$3
 
-m "creating Gitea repository \"$ORG/$REPO\"..."
-"$HERE/api" "$USERNAME" POST "org/$ORG/repos" "{\"name\":\"$REPO\", \"auto_init\": true, \"default_branch\": \"main\"}"
+"$HERE/api" "$USERNAME" POST "orgs/$ORG/repos" "{\"name\": \"$REPO\", \"auto_init\": true, \"default_branch\": \"main\"}"

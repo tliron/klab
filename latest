@@ -35,9 +35,9 @@ CERT_MANAGER_VERSION=$(github_version cert-manager/cert-manager)
 CERT_MANAGER_VERSION=${CERT_MANAGER_VERSION:1}
 m "CERT_MANAGER_VERSION=$CERT_MANAGER_VERSION"
 
-ROOK_VERSION=$(github_version rook/rook)
-ROOK_VERSION=${ROOK_VERSION:1}
-m "ROOK_VERSION=$ROOK_VERSION"
+# ROOK_VERSION=$(github_version rook/rook)
+# ROOK_VERSION=${ROOK_VERSION:1}
+# m "ROOK_VERSION=$ROOK_VERSION"
 
 K9S_VERSION=$(github_version derailed/k9s)
 K9S_VERSION=${K9S_VERSION:1}
@@ -47,9 +47,9 @@ HELM_VERSION=$(github_version helm/helm)
 HELM_VERSION=${HELM_VERSION:1}
 m "HELM_VERSION=$HELM_VERSION"
 
-#DASEL_VERSION=$(github_version TomWright/dasel)
-#DASEL_VERSION=${DASEL_VERSION:1}
-#m "DASEL_VERSION=$DASEL_VERSION"
+# DASEL_VERSION=$(github_version TomWright/dasel)
+# DASEL_VERSION=${DASEL_VERSION:1}
+# m "DASEL_VERSION=$DASEL_VERSION"
 
 YQ_VERSION=$(github_version mikefarah/yq)
 YQ_VERSION=${YQ_VERSION:1}

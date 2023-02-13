@@ -5,4 +5,6 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../library/_env"
 . "$ROOT/library/_trap"
 
-"$HERE/admin/create-user" administrator administrator@gitea password --admin || true
+. "$HERE/_env"
+
+"$HERE/admin/create-user" "$ADMINISTRATOR_USERNAME" administrator@gitea "$ADMINISTRATOR_PASSWORD" --admin || true

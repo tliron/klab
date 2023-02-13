@@ -45,6 +45,16 @@ function insert_text () {
 	mv "$T" "$FILE"
 }
 
+function remove_text () {
+    local FILE=$1
+    local START=$2
+    local END=$3
+	local T=$(mktemp)
+	head -n $((START-1)) "$FILE" > "$T"
+	tail -n +$((END+1)) "$FILE" >> "$T"
+	mv "$T" "$FILE"
+}
+
 # github
 
 function github_version () {

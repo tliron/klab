@@ -9,10 +9,10 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 
 CLUSTER=$1
 
-SECURE=${SECURE:-true}
+SECURE_PORT=${SECURE_PORT:-true}
 NODE_PORT=${NODE_PORT:-30000}
 
-if [ "$SECURE" == true ]; then
+if [ "$SECURE_PORT" == true ]; then
 	PORT=443
 	TARGET_PORT=8443
 else
@@ -42,16 +42,19 @@ insert_text "$HERE/work/$CLUSTER.yaml" 92 \
 "data:
   _global: '{\"clusterName\":\"$CLUSTER\",\"itemsPerPage\":10,\"labelsLimit\":3,\"logsAutoRefreshTimeInterval\":5,\"resourceAutoRefreshTimeInterval\":5,\"disableAccessDeniedNotifications\":false,\"defaultNamespace\":\"default\",\"namespaceFallbackList\":[\"default\"]}'"
 
-if [ "$SECURE" == true ]; then
+if [ "$SECURE_PORT" == true ]; then
 	# See: https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
 	cat "$HERE/assets/user-admin.yaml" >> "$HERE/work/$CLUSTER.yaml"
 else
 	# Enable HTTP and skip authentication
 	# See: https://github.com/kubernetes/dashboard/blob/master/docs/common/dashboard-arguments.md
 	replace_text "$HERE/work/$CLUSTER.yaml" 203 203 \
-"            - --insecure-bind-address=0.0.0.0
+"            - --inSECURE_PORT-bind-address=0.0.0.0
             - --enable-skip-login
             - --disable-settings-authorizer"
+
+	# Remove liveness probe (it fails for an unknown reason)
+	#remove_text "$HERE/work/$CLUSTER.yaml" 217 223
 
 	# Add "cluster-admin" permissions to "kubernetes-dashboard"" serviceaccount
 	# See: https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#admin-privileges
@@ -60,7 +63,7 @@ fi
 
 kubectl apply -f "$HERE/work/$CLUSTER.yaml"
 
-if [ "$SECURE" == true ]; then
+if [ "$SECURE_PORT" == true ]; then
 	m "admin token (from \"$HERE/admin-token\"):"
 	"$HERE/admin-token"
 fi

@@ -6,5 +6,7 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 
 USERNAME=$1
 ORG=$2
+REPO=$3
+COLLABORATOR=$4
 
-"$HERE/api" "$USERNAME" POST orgs "{\"username\": \"$ORG\"}"
+"$HERE/api" "$USERNAME" PUT "repos/$ORG/$REPO/collaborators/$COLLABORATOR" '{}'

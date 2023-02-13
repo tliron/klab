@@ -1,0 +1,42 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+USERNAME=developer
+PASSWORD=password
+
+m 'creating git repositories...'
+
+# User
+"$HERE/../gitea/admin/create-user" "$USERNAME" "$USERNAME@gitea" password || true
+"$HERE/../gitea/admin/api" administrator PATCH "admin/users/$USERNAME" "{\"login_name\": \"$USERNAME\", \"allow_create_organization\": true}"
+
+# Repositories
+"$HERE/../gitea/admin/create-org" "$USERNAME" nephio
+"$HERE/../gitea/admin/create-repository" "$USERNAME" nephio organizational-blueprints
+"$HERE/../gitea/admin/add-collaborator" "$USERNAME" nephio organizational-blueprints "$USERNAME"
+"$HERE/../gitea/admin/create-repository" "$USERNAME" nephio team-blueprints
+"$HERE/../gitea/admin/add-collaborator" "$USERNAME" nephio team-blueprints "$USERNAME"
+"$HERE/../gitea/admin/create-repository" "$USERNAME" nephio edge1-deployments
+"$HERE/../gitea/admin/add-collaborator" "$USERNAME" nephio edge1-deployments "$USERNAME"
+"$HERE/../gitea/admin/create-repository" "$USERNAME" nephio edge2-deployments
+"$HERE/../gitea/admin/add-collaborator" "$USERNAME" nephio edge2-deployments "$USERNAME"
+
+m 'creating "nephio" namespace...'
+
+kubectl create namespace nephio || true
+
+kubectl create secret generic gitea \
+    --namespace=nephio \
+    --type=kubernetes.io/basic-auth \
+    --from-literal=username="$USERNAME" \
+    --from-literal=password="$PASSWORD" || true
+
+# Porch repositories
+kubectl apply -f "$HERE/assets/demo/repositories.yaml"
+
+# Nephio clusters
+kubectl apply -f "$HERE/assets/demo/clusters.yaml"

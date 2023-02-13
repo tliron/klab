@@ -37,7 +37,7 @@ install_tool kubectl-cert_manager "$CERT_MANAGER_VERSION" \
 "https://github.com/cert-manager/cert-manager/releases/download/v$CERT_MANAGER_VERSION/kubectl-cert_manager-linux-amd64.tar.gz" 0
 
 install_tool k9s "$K9S_VERSION" \
-"https://github.com/derailed/k9s/releases/download/v$K9S_VERSION/k9s_Linux_x86_64.tar.gz" 0
+"https://github.com/derailed/k9s/releases/download/v$K9S_VERSION/k9s_Linux_amd64.tar.gz" 0
 
 install_tool helm "$HELM_VERSION" \
 "https://get.helm.sh/helm-v$HELM_VERSION-linux-amd64.tar.gz" 1 \

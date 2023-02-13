@@ -4,4 +4,5 @@ set -e
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../library/_env"
 
+xdg-open "http://localhost:3000"
 kubectl port-forward --namespace gitea service/gitea-http 3000:3000

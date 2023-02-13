@@ -1,0 +1,30 @@
+# apiVersion: configsync.gke.io/v1beta1
+# kind: RootSync
+
+# metadata:
+#   name: edge1-deployments
+#   namespace: config-management-system # must be in this namespace
+
+# spec:
+#   sourceFormat: unstructured
+#   git:
+#     repo: http://gitea-http.gitea:3000/nephio/edge1-deployments.git
+#     dir: /root
+#     branch: main
+#     auth: none
+
+---
+
+apiVersion: configsync.gke.io/v1beta1
+kind: RepoSync
+
+metadata:
+  name: edge1-deployments
+  namespace: nephio
+
+spec:
+  git:
+    repo: http://gitea-http.gitea:3000/nephio/edge1-deployments.git
+    dir: /
+    branch: main
+    auth: none
