@@ -5,9 +5,23 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../library/_env"
 . "$ROOT/library/_trap"
 
-# https://docs.gitea.io/en-us/install-on-kubernetes/
+HOST=$(hostname):32100
+
+rm --force --recursive "$HERE/admin/tokens/"
 
 kubectl create namespace gitea || true
 helm repo add gitea-charts https://dl.gitea.io/charts/
 helm install gitea gitea-charts/gitea --namespace=gitea \
-	--set='ingress.hosts[0].host=gitea-http.gitea:3000' || true
+	--set=ingress.hosts[0].host="$HOST" \
+	--set=service.http.type=NodePort \
+	--set=service.http.nodePort=32100 || true
+
+m 'waiting for Gitea to start...'
+kubectl wait pod/gitea-0 --namespace=gitea --for=condition=Ready --timeout=1h
+
+. "$HERE/_env"
+
+m "creating \"$ADMINISTRATOR_USERNAME\" user..."
+"$HERE/admin/create-user" "$ADMINISTRATOR_USERNAME" "$ADMINISTRATOR_PASSWORD" "$ADMINISTRATOR_USERNAME@gitea" --admin || true
+
+browse_url "http://$HOST"

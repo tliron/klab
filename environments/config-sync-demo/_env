@@ -1,0 +1,5 @@
+GIT_USERNAME=config-sync-developer
+GIT_PASSWORD=config-sync
+GIT_EMAIL=$GIT_USERNAME@gitea
+GIT_NAME='Config Sync Developer'
+GIT_REPO=config-sync-demo

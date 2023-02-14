@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../library/_env"
+. "$ROOT/library/_trap"
+
+. "$HERE/_env"
+
+GIT_HOST="http://$(hostname):32100" envsubst_dir "$HERE/assets" "$HERE/work"
+
+"$ROOT/platforms/kind/start" management edge1
+
+m 'setting up management cluster...'
+
+"$ROOT/platforms/kind/use" management
+
+"$ROOT/workloads/gitea/deploy"
+
+"$ROOT/workloads/gitea/admin/create-user" "$GIT_USERNAME" "$GIT_PASSWORD" "$GIT_EMAIL"
+"$ROOT/workloads/gitea/admin/create-user-repository" "$GIT_USERNAME" "$GIT_PASSWORD" "$GIT_REPO"
+"$ROOT/workloads/gitea/git-init" "$GIT_USERNAME" "$GIT_PASSWORD" "$GIT_NAME" "$GIT_EMAIL" "$HERE/work/repository" "$GIT_USERNAME" "$GIT_REPO"
+
+m 'setting up edge1 cluster...'
+
+"$ROOT/platforms/kind/use" edge1
+"$ROOT/workloads/config-sync/deploy"
+
+kubectl apply -f "$HERE/work/root-sync.yaml"

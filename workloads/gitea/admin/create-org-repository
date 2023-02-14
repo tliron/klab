@@ -8,9 +8,8 @@ USERNAME=$1
 PASSWORD=$2
 ORG=$3
 REPO=$4
-COLLABORATOR=$5
 
 "$HERE/api" "$USERNAME" "$PASSWORD" \
-	PUT \
-	"repos/$ORG/$REPO/collaborators/$COLLABORATOR" \
-	'{}'
+	POST \
+	"orgs/$ORG/repos" \
+	"{\"name\": \"$REPO\", \"default_branch\": \"main\"}"

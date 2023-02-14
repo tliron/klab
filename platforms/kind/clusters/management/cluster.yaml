@@ -12,5 +12,5 @@ nodes:
   extraPortMappings:
   - containerPort: $DASHBOARD_CONTAINER_PORT
     hostPort: $DASHBOARD_PORT
-  - containerPort: $DASHBOARD_CONTAINER_PORT
-    hostPort: $DASHBOARD_PORT
+  - containerPort: 32100 # Gitea NodePort
+    hostPort: 32100

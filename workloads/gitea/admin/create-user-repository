@@ -5,7 +5,10 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../../library/_env"
 
 USERNAME=$1
-ORG=$2
+PASSWORD=$2
 REPO=$3
 
-"$HERE/api" "$USERNAME" POST "orgs/$ORG/repos" "{\"name\": \"$REPO\", \"auto_init\": true, \"default_branch\": \"main\"}"
+"$HERE/api" "$USERNAME" "$PASSWORD" \
+	POST \
+	user/repos \
+	"{\"name\": \"$REPO\", \"default_branch\": \"main\"}"

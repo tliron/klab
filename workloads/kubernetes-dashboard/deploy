@@ -67,3 +67,6 @@ if [ "$SECURE_PORT" == true ]; then
 	m "admin token (from \"$HERE/admin-token\"):"
 	"$HERE/admin-token"
 fi
+
+m 'waiting for Kubernetes Dashboard to start...'
+kubectl wait deployment/kubernetes-dashboard --namespace=kubernetes-dashboard --for=condition=Available --timeout=1h

@@ -26,7 +26,6 @@ spec:
       serviceAccountName: kubernetes-web-view
       containers:
       - name: kubernetes-web-view
-        # see https://codeberg.org/hjacobs/kube-web-view/releases
         image: hjacobs/kube-web-view:$KUBERNETES_WEB_VIEW_VERSION
         args:
         - --port=8080

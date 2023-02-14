@@ -1,0 +1,14 @@
+apiVersion: configsync.gke.io/v1beta1
+kind: RootSync
+
+metadata:
+  name: config-sync-demo
+  namespace: config-management-system # RootSync must be in this namespace
+
+spec:
+  sourceFormat: unstructured
+  git:
+    repo: $GIT_HOST/config-sync-developer/config-sync-demo.git
+    dir: /root
+    branch: main
+    auth: none

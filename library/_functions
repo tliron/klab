@@ -20,6 +20,14 @@ function copy_function () {
 	eval "$NEWNAME_FUNC"
 }
 
+function browse_url () {
+	if [ "$XDG_OPEN" == true ]; then
+		xdg-open "$1"
+	else
+		m "browser URL: $1"
+	fi
+}
+
 # text
 
 function replace_text () {
@@ -53,6 +61,26 @@ function remove_text () {
 	head -n $((START-1)) "$FILE" > "$T"
 	tail -n +$((END+1)) "$FILE" >> "$T"
 	mv "$T" "$FILE"
+}
+
+function envsubst_cp () {
+	local FROM_FILE=$1
+	local TO_FILE=$2
+	mkdir --parents "$(dirname "$TO_FILE")"
+	cat "$FROM_FILE" | envsubst > "$TO_FILE"
+}
+
+function envsubst_dir () {
+	local FROM_DIR=$1
+	local TO_DIR=$2
+	rm --recursive --force "$TO_DIR"
+	mkdir --parents "$TO_DIR"
+	pushd "$FROM_DIR" > /dev/null
+	local F
+	find . -type f | while read F; do
+		envsubst_cp "$F" "$TO_DIR/$F"
+	done
+	popd > /dev/null
 }
 
 # github

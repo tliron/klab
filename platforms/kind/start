@@ -12,7 +12,7 @@ for CLUSTER in "$@"; do
 . "$HERE/clusters/$CLUSTER/env"
 
 API_ADDRESS=${API_ADDRESS:-127.0.0.1}
-DASHBOARD=${DASHBOARD:-kubernetes-web-view} # kubernetes-web-view, kubernetes-dashboard, skooner, headlamp, weave-scope
+DASHBOARD=${DASHBOARD:-kubernetes-web-view} # kubernetes-web-view, !kubernetes-dashboard, skooner, headlamp, !weave-scope
 DASHBOARD_SECURE_PORT=${DASHBOARD_SECURE_PORT:-false}
 DASHBOARD_CONTAINER_PORT=${DASHBOARD_CONTAINER_PORT:-30000}
 
@@ -37,13 +37,10 @@ SECURE_PORT="$DASHBOARD_SECURE_PORT" NODE_PORT="$DASHBOARD_CONTAINER_PORT" \
 "$ROOT/workloads/$DASHBOARD/deploy" "$CLUSTER_DISPLAY_NAME"
 
 if [ "$DASHBOARD_SECURE_PORT" == true ] && [ "$DASHBOARD" == dashboard ]; then
-	m "$DASHBOARD URL: https://localhost:$DASHBOARD_PORT"
-	m "(wait 1 minute for $DASHBOARD to start up, then refresh browser tab; accept the self-signed certificate)"
-	xdg-open "https://localhost:$DASHBOARD_PORT"
+	m "(you will have to accept the self-signed certificate)"
+	browse_url "https://localhost:$DASHBOARD_PORT"
 else
-	m "$DASHBOARD URL: http://localhost:$DASHBOARD_PORT"
-	m "(wait 1 minute for $DASHBOARD to start up, then refresh browser tab)"
-	xdg-open "http://localhost:$DASHBOARD_PORT"
+	browse_url "http://localhost:$DASHBOARD_PORT"
 fi
 
 fi

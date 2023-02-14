@@ -11,3 +11,6 @@ NODE_PORT="$NODE_PORT" envsubst < "$HERE/assets/headlamp.yaml" | kubectl apply -
 
 m "admin token (from \"$HERE/admin-token\"):"
 "$HERE/admin-token"
+
+m 'waiting for Headlamp to start...'
+kubectl wait deployment/headlamp --namespace=headlamp --for=condition=Available --timeout=1h

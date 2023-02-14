@@ -27,8 +27,8 @@ spec:
       - name: headlamp
         image: ghcr.io/kinvolk/headlamp:latest
         args:
-          - "-in-cluster"
-          - "-plugins-dir=/headlamp/plugins"
+          - -in-cluster
+          - -plugins-dir=/headlamp/plugins
         ports:
         - containerPort: 4466
         livenessProbe:
@@ -39,7 +39,7 @@ spec:
           initialDelaySeconds: 30
           timeoutSeconds: 30
       nodeSelector:
-        'kubernetes.io/os': linux
+        kubernetes.io/os: linux
 
 ---
 

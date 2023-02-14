@@ -5,6 +5,7 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../../library/_env"
 
 USERNAME=$1
+PASSWORD=$2
 
 if [ ! -f "$HERE/tokens/$USERNAME" ]; then
     mkdir --parents "$HERE/tokens/"
@@ -16,17 +17,20 @@ if [ ! -f "$HERE/tokens/$USERNAME" ]; then
 
 	. "$HERE/../_env"
 
-	kubectl exec gitea-0 --namespace=gitea --quiet -- \
-    curl --silent \
+	# Delete old "klab" token
+	kubectl exec gitea-0 --container=gitea --namespace=gitea --quiet -- \
+    curl --silent --fail \
         "http://localhost:3000/api/v1/users/$USERNAME/tokens/klab" \
-		--user "$ADMINISTRATOR_USERNAME:$ADMINISTRATOR_PASSWORD"
+		--user "$USERNAME:$PASSWORD" \
 		--request DELETE \
-        --header 'Accept: application/json'
+        --header 'Accept: application/json' || true
 
-	kubectl exec gitea-0 --namespace=gitea --quiet -- \
-    curl --silent \
+	# Create new "klab" token
+	# (this is our only chance to retrieve the sha1)
+	kubectl exec gitea-0 --container=gitea --namespace=gitea --quiet -- \
+    curl --silent --fail \
         "http://localhost:3000/api/v1/users/$USERNAME/tokens" \
-		--user "$ADMINISTRATOR_USERNAME:$ADMINISTRATOR_PASSWORD" \
+		--user "$USERNAME:$PASSWORD" \
 		--request POST \
         --header 'Accept: application/json' \
         --header 'Content-Type: application/json' \
