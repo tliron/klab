@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
 # See: https://kind.sigs.k8s.io/docs/user/known-issues/#pod-errors-due-to-too-many-open-files

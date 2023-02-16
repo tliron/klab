@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../../library/_env"
+. "$HERE/../../../_env"
 
 USERNAME=$1
 PASSWORD=$2

@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
 kubectl delete --ignore-not-found=true --filename="https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml"

@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
 kubectl delete -f "https://github.com/kubevirt/kubevirt/releases/download/v$KUBEVIRT_VERSION/kubevirt-cr.yaml" || true

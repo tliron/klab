@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
 NODE_PORT=${NODE_PORT:-30000}
@@ -12,5 +12,7 @@ NODE_PORT="$NODE_PORT" envsubst < "$HERE/assets/skooner.yaml" | kubectl apply -f
 m "admin token (from \"$HERE/admin-token\"):"
 "$HERE/admin-token"
 
-m 'waiting for Skooner to start...'
-kubectl wait deployment/skooner --namespace=skooner --for=condition=Available --timeout=1h
+if [ "$USE_BROWSER" == true ]; then
+	m 'waiting for Skooner to start...'
+	kubectl wait deployment/skooner --namespace=skooner --for=condition=Available --timeout=1h
+fi

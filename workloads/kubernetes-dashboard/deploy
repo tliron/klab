@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
 # https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
@@ -68,5 +68,7 @@ if [ "$SECURE_PORT" == true ]; then
 	"$HERE/admin-token"
 fi
 
-m 'waiting for Kubernetes Dashboard to start...'
-kubectl wait deployment/kubernetes-dashboard --namespace=kubernetes-dashboard --for=condition=Available --timeout=1h
+if [ "$USE_BROWSER" == true ]; then
+	m 'waiting for Kubernetes Dashboard to start...'
+	kubectl wait deployment/kubernetes-dashboard --namespace=kubernetes-dashboard --for=condition=Available --timeout=1h
+fi

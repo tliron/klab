@@ -2,6 +2,6 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 
 kubectl port-forward --namespace=nephio-webui service/nephio-webui 7007:7007

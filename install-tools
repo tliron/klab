@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/library/_env"
+. "$HERE/_env"
 . "$HERE/library/_trap"
 
 FORCE=false

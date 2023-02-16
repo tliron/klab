@@ -2,6 +2,6 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 
 kubectl exec gitea-0 --container=gitea --namespace=gitea --tty --stdin --quiet -- /bin/bash

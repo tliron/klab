@@ -2,12 +2,14 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
 NODE_PORT=${NODE_PORT:-30000}
 
 KUBERNETES_WEB_VIEW_VERSION="$KUBERNETES_WEB_VIEW_VERSION" NODE_PORT="$NODE_PORT" envsubst < "$HERE/assets/kubernetes-web-view.yaml" | kubectl apply -f -
 
-m 'waiting for Kubernetes Web View to start...'
-kubectl wait deployment/kubernetes-web-view --namespace=kubernetes-web-view --for=condition=Available --timeout=1h
+if [ "$USE_BROWSER" == true ]; then
+	m 'waiting for Kubernetes Web View to start...'
+	kubectl wait deployment/kubernetes-web-view --namespace=kubernetes-web-view --for=condition=Available --timeout=1h
+fi

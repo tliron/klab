@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
 BASE=https://raw.githubusercontent.com/abalki001/mariadb-operator/$MARIADB_VERSION/deploy

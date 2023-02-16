@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/library/_env"
+. "$HERE/_env"
 
 MINIKUBE_VERSION=$(github_version kubernetes/minikube)
 MINIKUBE_VERSION=${MINIKUBE_VERSION:1}

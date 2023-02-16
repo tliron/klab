@@ -2,7 +2,7 @@
 set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
-. "$HERE/../../library/_env"
+. "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
 kubectl apply -f "https://github.com/GoogleContainerTools/kpt-config-sync/releases/download/v$CONFIG_SYNC_VERSION/config-sync-manifest.yaml"
