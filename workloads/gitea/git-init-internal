@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../_env"
+
+USERNAME=$1
+PASSWORD=$2
+NAME=$3
+EMAIL=$4
+DIR=$5
+ORG=$6
+REPO=$7
+
+function execute () {
+	kubectl exec statefulset/gitea --container=gitea --namespace=gitea -- "$@"
+}
+
+execute rm -rf repository/
+kubectl cp "$DIR" gitea/gitea-0:repository --container=gitea
+execute git -C repository init --initial-branch=main
+execute git -C repository config user.name "$NAME"
+execute git -C repository config user.email "$EMAIL"
+execute git -C repository add .
+execute git -C repository commit --message='Initial commit'
+execute git -C repository remote add origin "http://$USERNAME:$PASSWORD@localhost:3000/$ORG/$REPO.git"
+execute git -C repository push --force --set-upstream origin main
+execute rm -rf repository/

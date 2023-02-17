@@ -18,7 +18,7 @@ if [ ! -f "$HERE/tokens/$USERNAME" ]; then
 	. "$HERE/../_env"
 
 	# Delete old "klab" token
-	kubectl exec gitea-0 --container=gitea --namespace=gitea --quiet -- \
+	kubectl exec statefulset/gitea --container=gitea --namespace=gitea --quiet -- \
     curl --silent --fail \
         "http://localhost:3000/api/v1/users/$USERNAME/tokens/klab" \
 		--user "$USERNAME:$PASSWORD" \
@@ -27,7 +27,7 @@ if [ ! -f "$HERE/tokens/$USERNAME" ]; then
 
 	# Create new "klab" token
 	# (this is our only chance to retrieve the sha1)
-	kubectl exec gitea-0 --container=gitea --namespace=gitea --quiet -- \
+	kubectl exec statefulset/gitea --container=gitea --namespace=gitea --quiet -- \
     curl --silent --fail \
         "http://localhost:3000/api/v1/users/$USERNAME/tokens" \
 		--user "$USERNAME:$PASSWORD" \

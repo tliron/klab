@@ -3,5 +3,6 @@ set -e
 
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../_env"
+. "$ROOT/library/_trap"
 
-kubectl exec statefulset/gitea --container=gitea --namespace=gitea --tty --stdin --quiet -- /bin/bash
+"$ROOT/platforms/kind/stop" management edge1

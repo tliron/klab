@@ -1,0 +1,6 @@
+GIT_USERNAME=porch-developer
+GIT_PASSWORD=porch
+GIT_EMAIL=$GIT_USERNAME@gitea
+GIT_NAME='Porch Developer'
+GIT_DEPLOYMENT_REPO=edge1
+GIT_BLUEPRINTS_REPO=blueprints

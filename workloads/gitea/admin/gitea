@@ -5,5 +5,5 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../../_env"
 
 # Note: we cannot run "gitea" as root
-kubectl exec gitea-0 --container=gitea --namespace=gitea --quiet -- \
+kubectl exec statefulset/gitea --container=gitea --namespace=gitea --quiet -- \
 su git -c "gitea --quiet $*"

@@ -16,8 +16,8 @@ metadata:
 spec:
   sourceFormat: unstructured
   git:
-    repo: $GIT_HOST/config-sync-developer/config-sync-demo.git
-    dir: /namespaces/network-function
+    repo: $GIT_HOST/$GIT_USERNAME/$GIT_DEPLOYMENT_REPO.git
+    dir: /network-function # we expect Porch to put the kpt package here
     branch: main
     auth: none
 

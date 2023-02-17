@@ -1,0 +1,59 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: $GIT_DEPLOYMENT_REPO
+  namespace: porch-demo
+
+spec:
+  description: $GIT_DEPLOYMENT_REPO
+  content: Package
+  deployment: true
+  type: git
+  git:
+    repo: http://gitea-http.gitea:3000/$GIT_USERNAME/$GIT_DEPLOYMENT_REPO.git
+    directory: /
+    branch: main
+    createBranch: true
+    secretRef:
+      name: gitea
+
+---
+
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: $GIT_BLUEPRINTS_REPO
+  namespace: porch-demo
+
+spec:
+  description: $GIT_BLUEPRINTS_REPO
+  content: Package
+  deployment: false
+  type: git
+  git:
+    repo: http://gitea-http.gitea:3000/$GIT_USERNAME/$GIT_BLUEPRINTS_REPO.git
+    directory: /
+    branch: main
+    secretRef:
+      name: gitea
+
+---
+
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+
+metadata:
+  name: external-blueprints
+  namespace: porch-demo
+
+spec:
+  description: External blueprints
+  content: Package
+  deployment: false
+  type: git
+  git:
+    repo: https://github.com/nephio-project/free5gc-packages.git
+    directory: /
+    branch: main

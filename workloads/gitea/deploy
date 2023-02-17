@@ -4,6 +4,7 @@ set -e
 HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../_env"
 . "$ROOT/library/_trap"
+. "$HERE/_env"
 
 HOST=$(hostname):32100
 
@@ -17,9 +18,8 @@ helm install gitea gitea-charts/gitea --namespace=gitea \
 	--set=service.http.nodePort=32100 || true
 
 m 'waiting for Gitea to start...'
-kubectl wait pod/gitea-0 --namespace=gitea --for=condition=Ready --timeout=1h
-
-. "$HERE/_env"
+# See: https://github.com/kubernetes/kubernetes/issues/79606
+kubectl rollout status statefulset/gitea --namespace=gitea --watch --timeout=1h 
 
 m "creating \"$ADMINISTRATOR_USERNAME\" user..."
 "$HERE/admin/create-user" "$ADMINISTRATOR_USERNAME" "$ADMINISTRATOR_PASSWORD" "$ADMINISTRATOR_USERNAME@gitea" --admin || true

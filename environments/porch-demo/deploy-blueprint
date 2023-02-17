@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../_env"
+. "$ROOT/library/_trap"
+. "$HERE/_env"
+
+"$ROOT/platforms/kind/use" management
+
+rm --force --recursive "$HERE/work/temporary/"
+
+# Pull the blueprint and mutate it
+BLUEPRINT=$("$ROOT/workloads/porch/package-revision-name" porch-demo "$GIT_BLUEPRINTS_REPO" network-function)
+kpt alpha rpkg pull "$BLUEPRINT" "$HERE/work/temporary/" --namespace=porch-demo
+kpt fn eval --image=gcr.io/kpt-fn/set-namespace:v0.4.1 "$HERE/work/temporary/" -- namespace=network-function
+
+# Create the deployment package
+DEPLOYMENT=$(kpt alpha rpkg init network-function --workspace=v1 --repository="$GIT_DEPLOYMENT_REPO" --namespace=porch-demo | cut --delimiter=' ' --fields=1)
+kpt alpha rpkg push "$DEPLOYMENT" "$HERE/work/temporary/" --namespace=porch-demo
+kpt alpha rpkg propose "$DEPLOYMENT" --namespace=porch-demo
+kpt alpha rpkg approve "$DEPLOYMENT" --namespace=porch-demo
+
+"$ROOT/platforms/kind/use" edge1
+
+kubectl apply -f "$HERE/work/root-sync.yaml"

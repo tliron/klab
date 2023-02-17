@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../_env"
+. "$ROOT/library/_trap"
+. "$HERE/_env"
+
+"$ROOT/platforms/kind/use" management
+
+BLUEPRINT=$(kpt alpha rpkg init network-function --workspace=v1 --repository="$GIT_BLUEPRINTS_REPO" --namespace=porch-demo | cut --delimiter=' ' --fields=1)
+kpt alpha rpkg push "$BLUEPRINT" "$HERE/work/blueprints/network-function/" --namespace=porch-demo
+kpt alpha rpkg propose "$BLUEPRINT" --namespace=porch-demo
+kpt alpha rpkg approve "$BLUEPRINT" --namespace=porch-demo

@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../_env"
+. "$ROOT/library/_trap"
+. "$HERE/_env"
+
+GIT_HOST="http://$(hostname):32100" GIT_USERNAME="$GIT_USERNAME" GIT_REPO="$GIT_REPO" envsubst_dir "$HERE/assets" "$HERE/work"
+
+"$ROOT/platforms/kind/start" management edge1
+
+m 'setting up management cluster...'
+
+"$ROOT/platforms/kind/use" management
+
+"$ROOT/workloads/gitea/deploy"
+"$ROOT/workloads/gitea/admin/create-user" "$GIT_USERNAME" "$GIT_PASSWORD" "$GIT_EMAIL" || true
+"$ROOT/workloads/gitea/admin/create-user-repository" "$GIT_USERNAME" "$GIT_PASSWORD" "$GIT_REPO" || true
+
+m 'setting up edge1 cluster...'
+
+"$ROOT/platforms/kind/use" edge1
+
+"$ROOT/workloads/config-sync/deploy"

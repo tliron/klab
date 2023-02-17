@@ -8,7 +8,7 @@ metadata:
 spec:
   sourceFormat: unstructured
   git:
-    repo: $GIT_HOST/$GIT_USERNAME/$GIT_REPO.git
+    repo: $GIT_HOST/$GIT_USERNAME/$GIT_DEPLOYMENT_REPO.git
     dir: /root
     branch: main
     auth: none

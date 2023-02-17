@@ -17,6 +17,7 @@ if [ ! -d "$HERE/blueprint" ]; then
 	wget --quiet --output-document="$ARCHIVE" "$URL"
 	mkdir --parents "$HERE/blueprint"
 	tar --extract --file="$ARCHIVE" --directory="$HERE/blueprint"
+	rm --force "$ARCHIVE"
 fi
 
 kubectl apply -f "$HERE/blueprint/"
