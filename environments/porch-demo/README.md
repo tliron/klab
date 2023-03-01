@@ -42,7 +42,8 @@ external blueprint, using `kubectl` or `kpt`:
     kpt alpha rpkg pull "$BLUEPRINT" --namespace=porch-demo
 
 Run [`create-blueprint`](create-blueprint) to create a kpt package in our "blueprints"
-repository based on [this content](assets/blueprints/network-function/). The lifecycle is:
+repository based on [this content](assets/blueprints/network-function/), which we initialized
+with `kpt pkg init` and then modified. The lifecycle is:
 
 ### Create the draft
 
@@ -70,8 +71,8 @@ Now run [`deploy-blueprint`](deploy-blueprint). It will:
    locally from where we created it above, but for demonstration purposes we'll assume that it was
    created by someone else at an earlier time.)
 2) Mutate it by calling the [set-namespace kpt function](https://catalog.kpt.dev/set-namespace/v0.4/)
-   to ready it to be deployed. (Note that Config Sync is ignorane of the Kptfile, thus we cannot
-   rely on declarative kpt mutation for deployment.)
+   to ready it to be deployed. (Note that Config Sync is unaware of the Kptfile, thus we cannot
+   rely on declarative kpt mutation for deployment in this combination.)
 3) Create a new kpt package for it in our "deployment" repository, following the same lifecycle
    as above.
 4) Deploy a [`RootSync`](assets/root-sync.yaml) to the edge1 cluster.
