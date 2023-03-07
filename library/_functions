@@ -21,7 +21,7 @@ function copy_function () {
 }
 
 function browse_url () {
-	if [ "$USE_BROWSER" == true ]; then
+	if [ "$USE_BROWSER" == true ] && command -v xdg-open > /dev/null; then
 		xdg-open "$1"
 	else
 		m "browser URL: $1"
