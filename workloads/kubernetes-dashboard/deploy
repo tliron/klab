@@ -64,7 +64,7 @@ fi
 kubectl apply -f "$HERE/work/$CLUSTER.yaml"
 
 if [ "$SECURE_PORT" == true ]; then
-	m "admin token (from \"$HERE/admin-token\"):"
+	m "admin token (from \"$HERE/admin-token\"):" "$CYAN"
 	"$HERE/admin-token"
 fi
 

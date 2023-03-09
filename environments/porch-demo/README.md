@@ -41,6 +41,9 @@ external blueprint, using `kubectl` or `kpt`:
     kubectl get packagerevisionresources "$BLUEPRINT" --namespace=porch-demo --output=jsonpath="{range .spec.resources.*}{'---\n'}{@}{end}"
     kpt alpha rpkg pull "$BLUEPRINT" --namespace=porch-demo
 
+Create the Blueprint
+--------------------
+
 Run [`create-blueprint`](create-blueprint) to create a kpt package in our "blueprints"
 repository based on [this content](assets/blueprints/network-function/), which we initialized
 with `kpt pkg init` and then modified. The lifecycle is:
@@ -65,7 +68,10 @@ with `kpt pkg init` and then modified. The lifecycle is:
 2) Our git repository's branch has been merged into "main" and deleted.
 3) The "main" branch HEAD has been tagged as "network-function/v1".
 
-Now run [`deploy-blueprint`](deploy-blueprint). It will:
+Deploy the Blueprint
+--------------------
+
+Now run [`deploy-blueprint-manually`](deploy-blueprint-manually). It will:
 
 1) Pull the contents of kpt package above into a temporary directory. (Of course we already have it
    locally from where we created it above, but for demonstration purposes we'll assume that it was
@@ -81,4 +87,19 @@ Config Sync will take it from here and after a few minutes you should see the sy
 the newly created namespace:
 
     platforms/kind/use edge1
-    kubectl get pods --namespace=network-function
+    kubectl get pods --namespace=network-function-a
+
+Deploy the Blueprint As a Variant
+---------------------------------
+
+Now run [`deploy-blueprint-variant`](deploy-blueprint-variant). It will apply
+[this `PackageVariant`](assets/variant.yaml).
+
+The Package Variant Controller will then pull our blueprint package from the upstream repository
+and from it create a draft `PackageRevision` in the downstream repository.
+
+We have to wait for that `PackageRevision` to be created, and then we follow the same workflow as
+above and get the network function deployed in another namespace:
+
+    platforms/kind/use edge1
+    kubectl get pods --namespace=network-function-b

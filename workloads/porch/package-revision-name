@@ -10,16 +10,23 @@ PACKAGE_NAME=$3
 REVISION=$4
 
 if [ -n "$REVISION" ]; then
-	kubectl get packagerevision \
-		--field-selector="spec.repository=$REPOSITORY,spec.packageName=$PACKAGE_NAME,spec.revision=$REVISION" \
-		--namespace="$NAMESPACE" \
-		--output=jsonpath='{.items[0].metadata.name}'
+	if [ "$REVISION" == draft ]; then
+		kubectl get packagerevision \
+			--field-selector="spec.repository=$REPOSITORY,spec.packageName=$PACKAGE_NAME" \
+			--namespace="$NAMESPACE" \
+			--output=jsonpath='{.items[0].metadata.name}' 2> /dev/null
+	else
+		kubectl get packagerevision \
+			--field-selector="spec.repository=$REPOSITORY,spec.packageName=$PACKAGE_NAME,spec.revision=$REVISION" \
+			--namespace="$NAMESPACE" \
+			--output=jsonpath='{.items[0].metadata.name}' 2> /dev/null
+	fi
 else
 	kubectl get packagerevision \
 		--field-selector="spec.repository=$REPOSITORY,spec.packageName=$PACKAGE_NAME" \
 		--selector=kpt.dev/latest-revision=true \
 		--namespace="$NAMESPACE" \
-		--output=jsonpath='{.items[0].metadata.name}'
+		--output=jsonpath='{.items[0].metadata.name}' 2> /dev/null
 fi
 
 echo

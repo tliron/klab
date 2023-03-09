@@ -1,0 +1,15 @@
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+
+metadata:
+  name: network-function
+  namespace: porch-demo
+
+spec:
+  upstream:
+    repo: $GIT_BLUEPRINTS_REPO
+    package: network-function
+    revision: v1
+  downstream:
+    repo: $GIT_DEPLOYMENT_REPO
+    package: network-function-b

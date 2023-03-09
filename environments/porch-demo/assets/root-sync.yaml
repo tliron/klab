@@ -2,7 +2,7 @@ apiVersion: configsync.gke.io/v1beta1
 kind: RootSync
 
 metadata:
-  name: config-sync-demo
+  name: porch-demo
   namespace: config-management-system # RootSync must be in this namespace
 
 spec:

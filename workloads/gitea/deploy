@@ -25,5 +25,5 @@ m "creating \"$ADMINISTRATOR_USERNAME\" user..."
 "$HERE/admin/create-user" "$ADMINISTRATOR_USERNAME" "$ADMINISTRATOR_PASSWORD" "$ADMINISTRATOR_USERNAME@gitea" --admin || true
 
 browse_url "http://$HOST"
-m "Gitea admin username: $ADMINISTRATOR_USERNAME"
-m "Gitea admin password: $ADMINISTRATOR_PASSWORD"
+m "Gitea admin username: $ADMINISTRATOR_USERNAME" "$CYAN"
+m "Gitea admin password: $ADMINISTRATOR_PASSWORD" "$CYAN"

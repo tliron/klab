@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Namespace
+
+metadata:
+  name: network-function-b
+
+---
+
+apiVersion: configsync.gke.io/v1beta1
+kind: RepoSync
+
+metadata:
+  name: repo-sync # this name is required
+  namespace: network-function-b
+
+spec:
+  sourceFormat: unstructured
+  git:
+    repo: $GIT_HOST/$GIT_USERNAME/$GIT_DEPLOYMENT_REPO.git
+    dir: /network-function-b # we expect Porch to put the kpt package here
+    branch: main
+    auth: none
+
+---
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+
+metadata:
+  name: ns-reconciler-network-b-function
+  namespace: network-function-b
+
+subjects:
+- kind: ServiceAccount
+  name: ns-reconciler-network-function-b # created by Config Sync for the RepoSync reconciler
+  namespace: config-management-system
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io
