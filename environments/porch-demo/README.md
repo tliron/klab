@@ -22,6 +22,7 @@ The management cluster hosts Gitea and Porch. We create
 
 To see the repositories using `kubectl` or `kpt`:
 
+    platforms/kind/use management
     kubectl get repository --namespace=porch-demo
     kpt alpha repo get --namespace=porch-demo
 
@@ -93,13 +94,24 @@ Deploy the Blueprint As a Variant
 ---------------------------------
 
 Now run [`deploy-blueprint-variant`](deploy-blueprint-variant). It will apply
-[this `PackageVariant`](assets/variant.yaml).
+[this `PackageVariantSet`](assets/variant.yaml), which contains only one specific downstream
+variant. This is a simple example for demonstration purposes. In fact a `PackageVariantSet`
+can lead to the creation of any number of `PackageVariants` for any number of downstream
+workload repositories by using selection criteria.
 
-The Package Variant Controller will then pull our blueprint package from the upstream repository
-and from it create a draft `PackageRevision` in the downstream repository.
+The Package Variant Set Controller will thus create a single `PackageVariant` for us. To see it:
 
-We have to wait for that `PackageRevision` to be created, and then we follow the same workflow as
-above and get the network function deployed in another namespace:
+    platforms/kind/use management
+    VARIANT=$(workloads/porch/package-variant-name porch-demo edge1 network-function-b)
+    kubectl get packagevariant "$VARIANT" --namespace=porch-demo --output=yaml
 
-    platforms/kind/use edge1
-    kubectl get pods --namespace=network-function-b
+The Package Variant Controller will see this `PackageVariant` and use it to pull our blueprint
+package from the upstream repository and from it create a draft `PackageRevision` in the downstream
+repository.
+
+We have to then wait for that `PackageRevision` to be created, and then we follow the same workflow
+as above to mutate the package and deploy it to a namespace (a different one from before). To see the
+final synced resources:
+
+   platforms/kind/use edge1
+   kubectl get pods --namespace=network-function-b

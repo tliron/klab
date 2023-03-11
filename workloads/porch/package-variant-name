@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/../../_env"
+
+NAMESPACE=$1
+REPOSITORY=$2
+PACKAGE_NAME=$3
+
+# Note that --field-selector is not supported for PackageVariant, so we need to implement our own selector
+
+NAMES=$(kubectl get packagevariant --namespace="$NAMESPACE" --output=jsonpath='{.items[*].metadata.name}' 2> /dev/null)
+for NAME in $NAMES; do
+	R=$(kubectl get packagevariant "$NAME" --namespace="$NAMESPACE" --output=jsonpath='{.spec.downstream.repo}' 2> /dev/null)
+	P=$(kubectl get packagevariant "$NAME" --namespace="$NAMESPACE" --output=jsonpath='{.spec.downstream.package}' 2> /dev/null)
+	if [ "$R" == "$REPOSITORY" ] && [ "$P" == "$PACKAGE_NAME" ]; then
+		echo "$NAME"
+		exit
+	fi
+done
+
+exit 1

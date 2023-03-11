@@ -1,5 +1,5 @@
 apiVersion: config.porch.kpt.dev/v1alpha1
-kind: PackageVariant
+kind: PackageVariantSet
 
 metadata:
   name: network-function
@@ -7,9 +7,15 @@ metadata:
 
 spec:
   upstream:
-    repo: $GIT_BLUEPRINTS_REPO
-    package: network-function
+    package:
+      repo: $GIT_BLUEPRINTS_REPO
+      name: network-function
     revision: v1
-  downstream:
-    repo: $GIT_DEPLOYMENT_REPO
-    package: network-function-b
+  targets:
+  # Note: In this example we are using "package" to create a single explicit PackageVariant,
+  # but a target can also be "repositories" or "objects", which allows for selection of
+  # zero or more downstreams. If you use those, then you can also use "packageName" to control
+  # how the downstream package names are generated.
+  - package:
+      repo: $GIT_DEPLOYMENT_REPO
+      name: network-function-b
