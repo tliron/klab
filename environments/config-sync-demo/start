@@ -6,6 +6,8 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$ROOT/library/_trap"
 . "$HERE/_env"
 
+rm --force --recursive "$HERE/work/"
+
 GIT_HOST="http://$(hostname):32100" GIT_USERNAME="$GIT_USERNAME" GIT_REPO="$GIT_REPO" envsubst_dir "$HERE/assets" "$HERE/work"
 
 "$ROOT/platforms/kind/start" management edge1

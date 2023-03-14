@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+if [ "$EUID" -ne 0 ]; then
+	echo "Run this script as root"
+	exit 1
+fi
+
+apt install git jq xdg-utils
+
+# TODO: https://docs.docker.com/engine/install/ubuntu/
