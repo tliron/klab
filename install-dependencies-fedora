@@ -6,13 +6,18 @@ if [ "$EUID" -ne 0 ]; then
 	exit 1
 fi
 
-# These should be installed already: git jq xdg-utils
+# See: https://docs.docker.com/engine/install/fedora/
 
+# Remove other/old versions of docker
+dnf remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-selinux docker-engine-selinux docker-engine
+
+dnf install dnf-plugins-core
 dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
-dnf install git jq xdg-utils docker-ce docker-ce-cli containerd.io
+# Note: these should be installed already: git jq xdg-utils
+dnf install git jq xdg-utils docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-usermod -aG docker $SUDO_USER
+usermod -aG docker "$SUDO_USER"
 
 systemctl enable docker
 
