@@ -11,7 +11,7 @@ We'll show how kpt packages can be 1) stored and managed in git repositories and
 The management cluster hosts Gitea and Porch. We create
 [three Porch `Repository` resources](assets/porch-repositories.yaml) there:
 
-* "egde1" for an internal git repository on our Gitea, also called "edge1".
+* "edge1" for an internal git repository on our Gitea, also called "edge1".
   We initialize it with [this content](assets/deployment-repository/) to ready it for Config Sync.
   See the [Config Sync demo](../config-sync-demo/) for more detail.
 * "blueprints" for an internal git repository on our Gitea, also called "blueprints".
@@ -72,7 +72,7 @@ with `kpt pkg init` and then modified. The lifecycle is:
 Deploy the Blueprint
 --------------------
 
-Now run [`deploy-blueprint-manually`](deploy-blueprint-manually). It will:
+Now run [`deploy-blueprint`](deploy-blueprint). It will:
 
 1) Pull the contents of kpt package above into a temporary directory. (Of course we already have it
    locally from where we created it above, but for demonstration purposes we'll assume that it was
@@ -113,5 +113,5 @@ We have to then wait for that `PackageRevision` to be created, and then we follo
 as above to mutate the package and deploy it to a namespace (a different one from before). To see the
 final synced resources:
 
-   platforms/kind/use edge1
-   kubectl get pods --namespace=network-function-b
+    platforms/kind/use edge1
+    kubectl get pods --namespace=network-function-b
