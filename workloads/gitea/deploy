@@ -6,7 +6,7 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$ROOT/library/_trap"
 . "$HERE/_env"
 
-HOST=$(hostname):32100
+HOST=$(echo $(hostname) |tr '[:upper:]' '[:lower:]'):32100
 
 rm --force --recursive "$HERE/admin/tokens/"
 
