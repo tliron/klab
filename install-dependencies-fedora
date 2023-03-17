@@ -9,16 +9,16 @@ fi
 # See: https://docs.docker.com/engine/install/fedora/
 
 # Remove other/old versions of docker
-dnf remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-selinux docker-engine-selinux docker-engine
+dnf remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-selinux docker-engine-selinux docker-engine || true
 
-dnf install dnf-plugins-core
+dnf install --assumeyes dnf-plugins-core
 dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
 # Note: these should be installed already: git jq xdg-utils
-dnf install git jq xdg-utils docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+dnf install --assumeyes git jq xdg-utils docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-usermod -aG docker "$SUDO_USER"
+usermod --append --groups docker "$SUDO_USER"
 
-systemctl enable docker
+systemctl enable --now docker
 
 echo 'Reboot your OS!'
