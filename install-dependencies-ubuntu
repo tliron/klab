@@ -21,7 +21,7 @@ echo \
 chmod a+r /etc/apt/keyrings/docker.gpg
 apt update
 
-apt install git jq xdg-utils docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+apt install -y git jq xdg-utils docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 usermod -aG docker "$SUDO_USER"
 
