@@ -19,6 +19,6 @@ git -C "$TEMP_DIR" config user.name "$NAME"
 git -C "$TEMP_DIR" config user.email "$EMAIL"
 git -C "$TEMP_DIR" add .
 git -C "$TEMP_DIR" commit --message='Initial commit'
-git -C "$TEMP_DIR" remote add origin "http://$USERNAME:$PASSWORD@$(hostname):32100/$ORG/$REPO.git"
+git -C "$TEMP_DIR" remote add origin "http://$USERNAME:$PASSWORD@$HOST:32100/$ORG/$REPO.git"
 git -C "$TEMP_DIR" push --force --set-upstream origin main
 rm --recursive --force "$TEMP_DIR"
