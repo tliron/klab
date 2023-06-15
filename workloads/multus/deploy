@@ -12,7 +12,7 @@ if [ "$1" == -c ]; then
 fi
 
 m 'deploying Multus...'
-kubectl apply --filename="https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/v$MULTUS_VERSION/deployments/multus-daemonset-thick-plugin.yml"
+kubectl apply --filename="https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/v$MULTUS_VERSION/deployments/multus-daemonset-thick.yml"
 
 m 'waiting for Multus to start...'
 POD=$(kubectl get pods --namespace=kube-system --selector=app=multus --output=jsonpath={.items[0].metadata.name})
@@ -20,4 +20,4 @@ kubectl wait "pods/$POD" --namespace=kube-system \
 	--for=condition=ContainersReady
 
 m 'restarting CRI-O...'
-minikube ssh -p central -- sudo systemctl restart crio
+#minikube ssh -p central -- sudo systemctl restart crio
