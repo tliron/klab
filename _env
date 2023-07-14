@@ -4,23 +4,23 @@ ROOT=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$ROOT/library/_functions"
 
 MINIKUBE_VERSION=1.30.1
-KIND_VERSION=0.19.0
-KUBECTL_VERSION=1.27.2
-OC_VERSION=4.13.0-0.okd-2023-05-22-052007
-KPT_VERSION=1.0.0-beta.35
-KUBEVIRT_VERSION=0.59.1
+KIND_VERSION=0.20.0
+KUBECTL_VERSION=1.27.3
+OC_VERSION=4.13.0-0.okd-2023-06-24-145750
+KPT_VERSION=1.0.0-beta.38
+KUBEVIRT_VERSION=1.0.0
 MULTUS_VERSION=4.0.2
-CERT_MANAGER_VERSION=1.12.1
+CERT_MANAGER_VERSION=1.12.2
 K9S_VERSION=0.27.4
-HELM_VERSION=3.12.0
-YQ_VERSION=4.34.1
+HELM_VERSION=3.12.2
+YQ_VERSION=4.34.2
 
-PORCH_VERSION=0.0.18
-PORCH_UI_VERSION=0.1.3
-CONFIG_SYNC_VERSION=1.15.1
-KUBERNETES_DASHBOARD_VERSION=2.7.0
-KUBERNETES_WEB_VIEW_VERSION=22.11.0 # See: https://hub.docker.com/r/hjacobs/kube-web-view/tags
-WEAVE_SCOPE_VERSION=1.13.2
+PORCH_VERSION=0.0.19 # https://github.com/GoogleContainerTools/kpt/releases
+PORCH_UI_VERSION=0.1.3 # https://console.cloud.google.com/gcr/images/kpt-dev/global/kpt-backstage-plugins/backstage-plugin-cad
+CONFIG_SYNC_VERSION=1.15.2 # https://github.com/GoogleContainerTools/kpt-config-sync
+KUBERNETES_DASHBOARD_VERSION=2.7.0 # https://github.com/kubernetes/dashboard/releases
+KUBERNETES_WEB_VIEW_VERSION=23.7.0 # https://hub.docker.com/r/hjacobs/kube-web-view/tags
+WEAVE_SCOPE_VERSION=1.13.2 # https://github.com/weaveworks/scope/releases
 
 MARIADB_VERSION=8b941d2a929f260bceadd829289d887bce091fdb
 #MARIADB_VERSION=a4790c504bfcb2b7c4eb54c8851fc5897865fc84
