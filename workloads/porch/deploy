@@ -5,7 +5,7 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/../../_env"
 . "$ROOT/library/_trap"
 
-URL=https://github.com/GoogleContainerTools/kpt/releases/download/porch/v$PORCH_VERSION/deployment-blueprint.tar.gz
+URL=https://github.com/kptdev/kpt/releases/download/porch/v$PORCH_VERSION/deployment-blueprint.tar.gz
 ARCHIVE=$(mktemp --suffix=.tar.gz)
 
 if [ "$1" == -c ]; then
